@@ -1,0 +1,90 @@
+return {
+	"coder/claudecode.nvim",
+	dependencies = { "folke/snacks.nvim" },
+	opts = {
+		-- Server Configuration
+		port_range = { min = 10000, max = 65535 },
+		auto_start = true,
+		log_level = "info", -- "trace", "debug", "info", "warn", "error"
+		terminal_cmd = nil, -- Custom terminal command (default: "claude")
+		-- For local installations: "~/.claude/local/claude"
+		-- For native binary: use output from 'which claude'
+
+		-- Send/Focus Behavior
+		-- When true, successful sends will focus the Claude terminal if already connected
+		focus_after_send = false,
+
+		-- Selection Tracking
+		track_selection = true,
+		visual_demotion_delay_ms = 50,
+
+		-- Terminal Configuration
+		---@diagnostic disable-next-line: missing-fields
+		terminal = {
+			split_side = "right", -- "left" or "right"
+			split_width_percentage = 0.35,
+			provider = "auto", -- "auto", "snacks", "native", "external", "none", or custom provider table
+			auto_close = true,
+			snacks_win_opts = {}, -- Opts to pass to `Snacks.terminal.open()` - see Floating Window section below
+			show_native_term_exit_tip = false,
+			-- Provider-specific options
+			provider_opts = {
+				-- Command for external terminal provider. Can be:
+				-- 1. String with %s placeholder: "alacritty -e %s" (backward compatible)
+				-- 2. String with two %s placeholders: "alacritty --working-directory %s -e %s" (cwd, command)
+				-- 3. Function returning command: function(cmd, env) return "alacritty -e " .. cmd end
+				external_terminal_cmd = nil,
+			},
+		},
+		-- Diff Integration
+		diff_opts = {
+			layout = "vertical", -- "vertical" or "horizontal"
+			open_in_new_tab = false,
+			keep_terminal_focus = false, -- If true, moves focus back to terminal after diff opens
+			hide_terminal_in_new_tab = false,
+			on_new_file_reject = "keep_empty", -- "keep_empty" or "close_window"
+			-- Legacy aliases (still supported):
+			-- vertical_split = true,
+			-- open_in_current_tab = true,
+		},
+	},
+	config = function(_, opts)
+		require("claudecode").setup(opts)
+		-- Fix: after C-h/C-l navigation, terminal pty gets stale dimensions;
+		-- resend correct size so the TUI redraws to fill the window.
+		vim.api.nvim_create_autocmd("WinEnter", {
+			callback = function()
+				local buf = vim.api.nvim_get_current_buf()
+				if vim.bo[buf].buftype ~= "terminal" then
+					return
+				end
+				vim.schedule(function()
+					if not vim.api.nvim_buf_is_valid(buf) then
+						return
+					end
+					local chan = vim.b[buf].terminal_job_id
+					if not chan or chan <= 0 then
+						return
+					end
+					local win = vim.api.nvim_get_current_win()
+					if not vim.api.nvim_win_is_valid(win) then
+						return
+					end
+					vim.fn.jobresize(chan, vim.api.nvim_win_get_width(win), vim.api.nvim_win_get_height(win))
+				end)
+			end,
+		})
+	end,
+	-- stylua: ignore start
+	keys = {
+		{ "<leader>cca", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept Diff" },
+		{ "<leader>ccb", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add Current Buffer" },
+		{ "<leader>ccc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+		{ "<leader>ccC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+		{ "<leader>ccd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny Diff" },
+		{ "<leader>ccf", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+		{ "<leader>ccr", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+		{ "<leader>ccs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+	},
+	-- stylua: ignore end
+}
