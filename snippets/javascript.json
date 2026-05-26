@@ -1,7 +1,0 @@
-{
-  "Stringify log to the console": {
-    "prefix": "logs",
-    "body": ["console.log('$1', JSON.stringify($2, null, 2))"],
-    "description": "Stringify log to the console"
-  }
-}
