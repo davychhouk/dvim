@@ -74,6 +74,49 @@ return {
 				end)
 			end,
 		})
+		-- Auto zoom into diff window when claudecode opens a diff for confirmation
+		vim.api.nvim_create_autocmd("WinEnter", {
+			group = vim.api.nvim_create_augroup("ClaudeCodeDiffZoom", { clear = true }),
+			callback = function()
+				vim.schedule(function()
+					local buf = vim.api.nvim_get_current_buf()
+					if not vim.api.nvim_buf_is_valid(buf) then
+						return
+					end
+					if not vim.b[buf].claudecode_diff_tab_name then
+						return
+					end
+					if vim.b[buf]._zoom_registered then
+						return
+					end
+					vim.b[buf]._zoom_registered = true
+
+					local was_zoomed = Snacks.zen.win and Snacks.zen.win:valid()
+					if not was_zoomed then
+						local explorer = Snacks.picker.get({ source = "explorer" })[1]
+						vim.g._zoom_had_explorer = explorer ~= nil
+						if explorer then
+							explorer:close()
+						end
+						Snacks.zen.zoom()
+					end
+
+					vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
+						buffer = buf,
+						once = true,
+						callback = function()
+							if not was_zoomed then
+								vim.schedule(function()
+									if Snacks.zen.win and Snacks.zen.win:valid() then
+										Snacks.zen.zoom()
+									end
+								end)
+							end
+						end,
+					})
+				end)
+			end,
+		})
 	end,
 	-- stylua: ignore start
 	keys = {
