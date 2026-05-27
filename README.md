@@ -30,7 +30,7 @@ On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mas
 | [fd](https://github.com/sharkdp/fd) | File finder |
 | [lazygit](https://github.com/jesseduffield/lazygit) | Git TUI (snacks integration) |
 | [tree-sitter CLI](https://github.com/tree-sitter/tree-sitter) | Treesitter parser compilation |
-| make + C compiler | LuaSnip jsregexp build |
+| make + C/C++ compiler | LuaSnip jsregexp + neorg parser builds |
 | A [Nerd Font](https://www.nerdfonts.com) | Icons |
 
 **Optional:**
@@ -38,10 +38,21 @@ On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mas
 | Tool | Purpose |
 |------|---------|
 | [delta](https://github.com/dandavison/delta) | deltaview.nvim diff rendering |
-| Node.js | JS/TS LSP servers via mason |
-| Python 3 | Python DAP (nvim-dap-python) |
-| Rust toolchain | rustaceanvim / rust-analyzer |
+| Node.js | prettierd / ts_ls and other JS-based mason tools |
+| [uv](https://github.com/astral-sh/uv) | Python DAP (`dap-python` launches debugpy via `uv run`) |
+| Rust toolchain | rustaceanvim local builds |
 | tmux | vim-tmux-navigator pane switching |
+
+### Auto-installed via Mason
+
+LSP servers, formatters, linters, and DAP adapters install on first launch — no manual setup needed.
+
+| Type | Tools |
+|------|-------|
+| LSP | `bashls`, `cssls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls` |
+| Formatters | `oxfmt`, `prettierd`, `ruff`, `stylua` (rustfmt via toolchain) |
+| Linters | `oxlint` |
+| DAP | `codelldb`, `delve` (rust-analyzer via mason-tool-installer) |
 
 ## Structure
 
@@ -71,7 +82,7 @@ snippets/                 filetype snippet files (LuaSnip)
 | [snacks.nvim](https://github.com/folke/snacks.nvim) | Dashboard, explorer, indent guides, scroll animation, statuscolumn, notifier, image preview |
 | [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) | Buffer tabs |
 | [which-key.nvim](https://github.com/folke/which-key.nvim) | Keybind popup hints |
-| [mini.icons](https://github.com/echasnovski/mini.icons) | Icon provider |
+| [mini.icons](https://github.com/nvim-mini/mini.icons) | Icon provider |
 | [nvim-highlight-colors](https://github.com/davychhouk/nvim-highlight-colors) | Inline color swatches |
 | [vim-highlighturl](https://github.com/itchyny/vim-highlighturl) | Underline URLs |
 | [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | Rendered markdown in buffer |
@@ -88,12 +99,12 @@ snippets/                 filetype snippet files (LuaSnip)
 |--------|-------------|
 | [blink.cmp](https://github.com/Saghen/blink.cmp) | Completion engine |
 | [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Snippet engine with custom JS snippets |
-| [mini.surround](https://github.com/echasnovski/mini.surround) | Surround text objects |
-| [mini.pairs](https://github.com/echasnovski/mini.pairs) | Auto-pair brackets and quotes |
-| [mini.splitjoin](https://github.com/echasnovski/mini.splitjoin) | Toggle args/arrays between single and multi line |
-| [mini.ai](https://github.com/echasnovski/mini.ai) | Extended text objects |
-| [mini.align](https://github.com/echasnovski/mini.align) | Align text interactively |
-| [mini.move](https://github.com/echasnovski/mini.move) | Move lines and selections |
+| [mini.surround](https://github.com/nvim-mini/mini.surround) | Surround text objects |
+| [mini.pairs](https://github.com/nvim-mini/mini.pairs) | Auto-pair brackets and quotes |
+| [mini.splitjoin](https://github.com/nvim-mini/mini.splitjoin) | Toggle args/arrays between single and multi line |
+| [mini.ai](https://github.com/nvim-mini/mini.ai) | Extended text objects |
+| [mini.align](https://github.com/nvim-mini/mini.align) | Align text interactively |
+| [mini.move](https://github.com/nvim-mini/mini.move) | Move lines and selections |
 | [nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag) | Auto-close and rename HTML tags |
 | [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim) | Search and replace UI |
 | [conform.nvim](https://github.com/stevearc/conform.nvim) | Formatter runner |
@@ -148,9 +159,9 @@ snippets/                 filetype snippet files (LuaSnip)
 | `animate` | Smooth animations for UI transitions |
 | `bigfile` | Disables heavy features for large files |
 | `dashboard` | Startup screen (see below) |
-| `dim` | Dims inactive windows |
+| `dim` | Focus the active scope by dimming surrounding code |
 | `explorer` | File tree explorer |
-| `git` | Git utilities (browse, diff) |
+| `git` | Git utility helpers (`gitbrowse` opens current line/file in browser) |
 | `image` | Inline image preview |
 | `indent` | Indent scope guides |
 | `input` | Styled vim.ui.input replacement |
@@ -165,7 +176,7 @@ snippets/                 filetype snippet files (LuaSnip)
 | `statuscolumn` | Custom status column (signs, folds, line numbers) |
 | `terminal` | Floating/split terminal |
 | `toggle` | Toggleable UI options (see below) |
-| `words` | Highlight and jump between word references |
+| `words` | Auto-show LSP references and jump between them |
 | `zen` | Distraction-free zen and zoom modes |
 
 ### Dashboard
@@ -196,7 +207,7 @@ Auto-reopens when the last real buffer is closed.
 | `<leader>uT` | Treesitter |
 | `<leader>uh` | Inlay hints |
 | `<leader>ug` | Indent guides |
-| `<leader>uD` | Dim inactive windows |
+| `<leader>uD` | Dim out-of-scope code |
 | `<leader>uz` | Zen mode |
 | `<leader>uc` | Conceallevel |
 | `<leader>ub` | Dark background |
@@ -329,6 +340,65 @@ Leader: `<Space>` — Local leader: `\`
 ### Quickfix / Loclist
 | Key | Action |
 |-----|--------|
+| `<leader>q` | Toggle quickfix (quicker) |
+| `<leader>L` | Toggle loclist (quicker) |
 | `]q` / `[q` | Next / prev quickfix |
 | `]l` / `[l` | Next / prev loclist |
+| `>` / `<` | Expand / collapse quickfix context (in qf window) |
+
+### Search & Replace (grug-far)
+| Key | Action |
+|-----|--------|
+| `<leader>grs` | Search and replace |
+| `<leader>grf` | Search and replace in current file |
+| `<leader>grv` | Search and replace within visual selection |
+| `<leader>grw` | Search word under cursor |
+
+### Diff (Deltaview)
+| Key | Action |
+|-----|--------|
+| `<leader>dvm` | Toggle DeltaMenu |
+| `<leader>dvl` | Toggle DeltaView |
+| `<leader>dva` | Toggle Delta |
+
+### Coerce
+| Key | Action |
+|-----|--------|
+| `<leader>cr<case>` | Coerce identifier case (e.g. `crc` camel, `crs` snake, `crk` kebab) — normal + visual |
+
+### AI
+
+**Claude Code**
+| Key | Action |
+|-----|--------|
+| `<leader>ccc` | Toggle Claude |
+| `<leader>ccC` | Continue Claude |
+| `<leader>ccr` | Resume Claude |
+| `<leader>ccf` | Focus Claude |
+| `<leader>ccb` | Add current buffer |
+| `<leader>ccs` | Send selection to Claude (visual) |
+| `<leader>cca` | Accept diff |
+| `<leader>ccd` | Deny diff |
+
+**Supermaven** (insert mode)
+| Key | Action |
+|-----|--------|
+| `<Tab>` | Accept suggestion |
+| `<A-j>` | Accept word |
+| `<A-]>` | Clear suggestion |
+
+### Neorg (`.norg` files)
+| Key | Action |
+|-----|--------|
+| `<leader>ni` | Open Neorg index |
+| `<leader>nj` | Today's journal entry |
+| `<leader>nn` | New note |
+| `<leader>nf` | Find notes (picker) |
+| `<leader>ng` | Grep notes (picker) |
+| `<CR>` | Follow link (buffer-local) |
+| `gO` | Table of contents |
+| `<localleader>td/tu/tp/th/tc/tr/ti/ta` | Task done/undone/pending/on-hold/cancelled/recurring/important/ambiguous |
+| `<localleader>lt` / `<localleader>li` | Toggle / invert list type |
+| `<localleader>id` | Insert date |
+| `<localleader>cm` | Magnify code block |
 
