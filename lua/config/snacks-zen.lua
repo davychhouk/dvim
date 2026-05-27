@@ -9,7 +9,7 @@ return {
 		on_close = function()
 			if vim.g._zoom_had_explorer then
 				vim.g._zoom_had_explorer = false
-				Snacks.explorer()
+				Snacks.explorer(require("config.snacks-explorer"))
 			end
 		end,
 	},

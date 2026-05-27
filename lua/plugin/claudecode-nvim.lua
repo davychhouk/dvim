@@ -105,13 +105,12 @@ return {
 						buffer = buf,
 						once = true,
 						callback = function()
-							if not was_zoomed then
-								vim.schedule(function()
-									if Snacks.zen.win and Snacks.zen.win:valid() then
-										Snacks.zen.zoom()
-									end
-								end)
-							end
+							vim.schedule(function()
+								if not was_zoomed and Snacks.zen.win and Snacks.zen.win:valid() then
+									Snacks.zen.zoom()
+								end
+								vim.cmd("ClaudeCodeFocus")
+							end)
 						end,
 					})
 				end)
