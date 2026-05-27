@@ -83,7 +83,7 @@ snippets/                 filetype snippet files (LuaSnip)
 | [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) | Buffer tabs |
 | [which-key.nvim](https://github.com/folke/which-key.nvim) | Keybind popup hints |
 | [mini.icons](https://github.com/nvim-mini/mini.icons) | Icon provider |
-| [nvim-highlight-colors](https://github.com/davychhouk/nvim-highlight-colors) | Inline color swatches |
+| [nvim-highlight-colors](https://github.com/davychhouk/nvim-highlight-colors) | Inline color swatches (personal fork of [brenoprata10/nvim-highlight-colors](https://github.com/brenoprata10/nvim-highlight-colors)) |
 | [vim-highlighturl](https://github.com/itchyny/vim-highlighturl) | Underline URLs |
 | [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | Rendered markdown in buffer |
 
@@ -97,7 +97,7 @@ snippets/                 filetype snippet files (LuaSnip)
 ### Editing
 | Plugin | Description |
 |--------|-------------|
-| [blink.cmp](https://github.com/Saghen/blink.cmp) | Completion engine |
+| [blink.cmp](https://github.com/saghen/blink.cmp) | Completion engine |
 | [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Snippet engine with custom JS snippets |
 | [mini.surround](https://github.com/nvim-mini/mini.surround) | Surround text objects |
 | [mini.pairs](https://github.com/nvim-mini/mini.pairs) | Auto-pair brackets and quotes |
