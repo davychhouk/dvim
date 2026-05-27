@@ -34,7 +34,7 @@ return {
 			terminal = { enabled = true },
 			toggle = { enabled = true },
 			words = { enabled = true },
-			zen = { enabled = true },
+			zen = require("config.snacks-zen"),
 		}
 	end,
 	-- stylua: ignore start
@@ -101,7 +101,14 @@ return {
 		{ "<leader>l", function() vim.cmd("Lazy") end, desc = "Open Lazy" },
 		{ "<leader>ms", function() vim.cmd("Mason") end, desc = "Open Mason" },
 		{ "<leader>z", function() Snacks.zen() end, desc = "Toggle Zen Mode" },
-		{ "<leader>Z", function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
+		{ "<leader>Z", function()
+			if not (Snacks.zen.win and Snacks.zen.win:valid()) then
+				local explorer = Snacks.picker.get({ source = "explorer" })[1]
+				vim.g._zoom_had_explorer = explorer ~= nil
+				if explorer then explorer:close() end
+			end
+			Snacks.zen.zoom()
+		end, desc = "Toggle Zoom" },
 		{ "<leader>x", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
 		{ "<leader>X", function() Snacks.bufdelete.other() end, desc = "Delete Other Buffers" },
 		{ "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
