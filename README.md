@@ -42,6 +42,8 @@ On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mas
 | [uv](https://github.com/astral-sh/uv) | Python DAP (`dap-python` launches debugpy via `uv run`) |
 | Rust toolchain | rustaceanvim local builds |
 | tmux | vim-tmux-navigator pane switching |
+| [nixd](https://github.com/nix-community/nixd) | Nix LSP (enabled in lspconfig, not in mason — install manually) |
+| [codebook-lsp](https://github.com/blopker/codebook) | Spell-check LSP toggled by `<leader>cb` (manual install) |
 
 ### Auto-installed via Mason
 
@@ -214,7 +216,8 @@ Auto-reopens when the last real buffer is closed.
 
 ## Keymaps
 
-Leader: `<Space>` — Local leader: `\`
+- Leader: `<Space>`
+- Local leader: `\`
 
 ### General
 | Key | Action |
@@ -230,6 +233,18 @@ Leader: `<Space>` — Local leader: `\`
 | `<leader>R` | Restart Neovim |
 | `<leader>ch` | Checkhealth |
 
+### Buffers (bufferline)
+| Key | Action |
+|-----|--------|
+| `<Tab>` / `<S-Tab>` | Next / prev buffer |
+| `<leader>bp` | Pick buffer |
+| `<leader>bn` | New buffer |
+| `<leader>bcc` | Close buffer (pick) |
+| `<leader>bca` | Close all buffers |
+| `<leader>bcl` / `<leader>bcr` / `<leader>bco` | Close buffers left / right / others |
+| `<leader>bmn` / `<leader>bmp` | Move buffer next / prev |
+| `<leader>btc` / `<leader>btn` / `<leader>btp` | Close / next / prev tab |
+
 ### Window Splits
 | Key | Action |
 |-----|--------|
@@ -237,6 +252,39 @@ Leader: `<Space>` — Local leader: `\`
 | `<leader>spv` | Split vertical |
 | `<leader>spe` | Equalize splits |
 | `<leader>spx` | Close split |
+
+### Motion (Flash)
+| Key | Action |
+|-----|--------|
+| `s` | Flash jump (n/x/o) |
+| `S` | Flash treesitter jump |
+| `r` | Remote flash (operator-pending) |
+| `R` | Treesitter search (o/x) |
+| `<C-s>` | Toggle flash in cmdline search |
+
+### Folds (ufo)
+| Key | Action |
+|-----|--------|
+| `zR` | Open all folds |
+| `zM` | Close all folds |
+| `zK` | Peek folded lines (falls back to LSP hover) |
+
+### Treesitter Selection (normal buffers)
+| Key | Action |
+|-----|--------|
+| `<CR>` | Init node selection / expand to parent (visual) |
+| `<BS>` | Shrink to child node (visual) |
+
+### Pane Navigation (tmux)
+| Key | Action |
+|-----|--------|
+| `<C-h>` / `<C-j>` / `<C-k>` / `<C-l>` | Navigate left / down / up / right across Neovim splits and tmux panes |
+
+### Markdown
+| Key | Action |
+|-----|--------|
+| `<leader>mr` | Enable render-markdown |
+| `<leader>mt` | Toggle render-markdown |
 
 ### Find / Grep
 | Key | Action |
@@ -286,6 +334,8 @@ Leader: `<Space>` — Local leader: `\`
 | `]c` / `[c` | Next / prev hunk |
 
 ### LSP
+
+**Navigation (via snacks picker):**
 | Key | Action |
 |-----|--------|
 | `gd` | Go to definition |
@@ -293,6 +343,22 @@ Leader: `<Space>` — Local leader: `\`
 | `gR` | References |
 | `gI` | Go to implementation |
 | `gy` | Go to type definition |
+| `<C-o>` | Jump back (older position in jumplist) |
+| `<C-i>` | Jump forward (newer position in jumplist) |
+| `g;` / `g,` | Jump older / newer in change list |
+| <code>``</code> / `''` | Jump to position before last jump (exact / line) |
+
+**Buffer-local (on LSP attach):**
+| Key | Action |
+|-----|--------|
+| `K` | Hover documentation |
+| `<leader>ca` | Code action (normal + visual) |
+| `<leader>rn` | Rename symbol |
+| `<leader>di` | Show line diagnostics (float) |
+| `[d` / `]d` | Prev / next diagnostic |
+| `<leader>rs` | Restart LSP |
+| `<leader>cb` | Toggle codebook LSP (spell checker) |
+
 
 ### Diagnostics & Trouble
 | Key | Action |
@@ -380,12 +446,12 @@ Leader: `<Space>` — Local leader: `\`
 | `<leader>cca` | Accept diff |
 | `<leader>ccd` | Deny diff |
 
-**Supermaven** (insert mode)
+**Supermaven** (insert mode, only when ghost text is showing)
 | Key | Action |
 |-----|--------|
 | `<Tab>` | Accept suggestion |
-| `<A-j>` | Accept word |
-| `<A-]>` | Clear suggestion |
+| `<C-j>` | Accept word |
+| `<C-]>` | Clear suggestion |
 
 ### Neorg (`.norg` files)
 | Key | Action |
