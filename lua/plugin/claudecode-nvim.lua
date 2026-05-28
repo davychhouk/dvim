@@ -105,6 +105,13 @@ return {
 						buffer = buf,
 						once = true,
 						callback = function()
+							-- Kill zen's BufWinEnter autocmd before buf is wiped;
+							-- snacks zen.lua:208 fires it globally and crashes with
+							-- "Invalid buffer id" once win.buf is gone.
+							if Snacks.zen.win and Snacks.zen.win.augroup then
+								pcall(vim.api.nvim_del_augroup_by_id, Snacks.zen.win.augroup)
+								Snacks.zen.win.augroup = nil
+							end
 							vim.schedule(function()
 								if not was_zoomed and Snacks.zen.win and Snacks.zen.win:valid() then
 									Snacks.zen.zoom()
