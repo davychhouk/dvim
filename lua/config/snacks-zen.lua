@@ -5,7 +5,11 @@ return {
 		toggles = {},
 		center = false,
 		show = { statusline = true, tabline = true },
-		win = { backdrop = false, width = 0 },
+		win = {
+			backdrop = false,
+			width = 0,
+			wo = { diff = true },
+		},
 		on_close = function()
 			if vim.g._zoom_had_explorer then
 				vim.g._zoom_had_explorer = false

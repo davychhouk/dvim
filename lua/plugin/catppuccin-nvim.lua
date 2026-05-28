@@ -5,6 +5,7 @@ return {
 	lazy = false,
 	config = function()
 		local macchiato = require("catppuccin.palettes").get_palette("macchiato")
+		local U = require("catppuccin.utils.colors")
 		local snack_picker_hl = { bg = macchiato.base, fg = macchiato.blue }
 		require("catppuccin").setup({
 			flavour = "macchiato",
@@ -13,6 +14,14 @@ return {
 				return {
 					CursorLine = { bg = macchiato.surface0 },
 					DashboardProjectName = { fg = macchiato.sapphire },
+					DiffAdd = { bg = U.darken(macchiato.green, 0.25, macchiato.base) },
+					DiffDelete = { bg = U.darken(macchiato.red, 0.25, macchiato.base) },
+					DiffChange = { bg = U.darken(macchiato.blue, 0.22, macchiato.base) },
+					DiffText = { bg = U.darken(macchiato.blue, 0.55, macchiato.base), bold = true },
+					DiffChangeAdd = { bg = U.darken(macchiato.green, 0.25, macchiato.base) },
+					DiffChangeDel = { bg = U.darken(macchiato.red, 0.25, macchiato.base) },
+					DiffTextAdd = { bg = U.darken(macchiato.green, 0.55, macchiato.base), bold = true },
+					DiffTextDel = { bg = U.darken(macchiato.red, 0.55, macchiato.base), bold = true },
 					DeltaDiffAddedLine = { link = "DiffAdd" },
 					DeltaDiffRemovedLine = { link = "DiffDelete" },
 					DeltaDiffAddedWord = { bg = macchiato.green, fg = macchiato.base },

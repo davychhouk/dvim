@@ -39,9 +39,9 @@ return {
 		-- Diff Integration
 		diff_opts = {
 			layout = "vertical", -- "vertical" or "horizontal"
-			open_in_new_tab = false,
+			open_in_new_tab = true,
 			keep_terminal_focus = false, -- If true, moves focus back to terminal after diff opens
-			hide_terminal_in_new_tab = false,
+			hide_terminal_in_new_tab = true,
 			on_new_file_reject = "keep_empty", -- "keep_empty" or "close_window"
 			-- Legacy aliases (still supported):
 			-- vertical_split = true,
@@ -74,9 +74,9 @@ return {
 				end)
 			end,
 		})
-		-- Auto zoom into diff window when claudecode opens a diff for confirmation
+		-- Remap diff highlights per-side when claudecode opens a diff: red on old, green on new
 		vim.api.nvim_create_autocmd("WinEnter", {
-			group = vim.api.nvim_create_augroup("ClaudeCodeDiffZoom", { clear = true }),
+			group = vim.api.nvim_create_augroup("ClaudeCodeDiffHL", { clear = true }),
 			callback = function()
 				vim.schedule(function()
 					local buf = vim.api.nvim_get_current_buf()
@@ -86,38 +86,46 @@ return {
 					if not vim.b[buf].claudecode_diff_tab_name then
 						return
 					end
-					if vim.b[buf]._zoom_registered then
+					if vim.b[buf]._diff_hl_applied then
 						return
 					end
-					vim.b[buf]._zoom_registered = true
+					vim.b[buf]._diff_hl_applied = true
 
-					local was_zoomed = Snacks.zen.win and Snacks.zen.win:valid()
-					if not was_zoomed then
-						local explorer = Snacks.picker.get({ source = "explorer" })[1]
-						vim.g._zoom_had_explorer = explorer ~= nil
-						if explorer then
-							explorer:close()
+					local new_win = vim.api.nvim_get_current_win()
+					vim.wo[new_win].winhighlight = "DiffChange:DiffChangeAdd,DiffText:DiffTextAdd"
+					for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+						if w ~= new_win and vim.wo[w].diff then
+							vim.wo[w].winhighlight = "DiffChange:DiffChangeDel,DiffText:DiffTextDel"
 						end
-						Snacks.zen.zoom()
 					end
 
-					vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
-						buffer = buf,
+					-- After the diff tab closes, ensure the Claude terminal is visible AND focused.
+					-- claudecode's own cleanup calls ensure_visible (no focus); we add the focus step.
+					-- Avoid ClaudeCodeFocus — it's a toggle that can hide an already-visible terminal.
+					vim.api.nvim_create_autocmd("WinClosed", {
+						pattern = tostring(new_win),
 						once = true,
 						callback = function()
-							-- Kill zen's BufWinEnter autocmd before buf is wiped;
-							-- snacks zen.lua:208 fires it globally and crashes with
-							-- "Invalid buffer id" once win.buf is gone.
-							if Snacks.zen.win and Snacks.zen.win.augroup then
-								pcall(vim.api.nvim_del_augroup_by_id, Snacks.zen.win.augroup)
-								Snacks.zen.win.augroup = nil
-							end
-							vim.schedule(function()
-								if not was_zoomed and Snacks.zen.win and Snacks.zen.win:valid() then
-									Snacks.zen.zoom()
+							vim.defer_fn(function()
+								local ok, terminal = pcall(require, "claudecode.terminal")
+								if not ok then
+									return
 								end
-								vim.cmd("ClaudeCodeFocus")
-							end)
+								terminal.ensure_visible()
+								local term_buf = terminal.get_active_terminal_bufnr()
+								if not term_buf then
+									return
+								end
+								for _, w in ipairs(vim.api.nvim_list_wins()) do
+									if vim.api.nvim_win_get_buf(w) == term_buf then
+										vim.api.nvim_set_current_win(w)
+										if vim.bo[term_buf].buftype == "terminal" then
+											vim.cmd("startinsert")
+										end
+										return
+									end
+								end
+							end, 50)
 						end,
 					})
 				end)
