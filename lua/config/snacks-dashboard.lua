@@ -122,7 +122,7 @@ return {
 		keys = {
 			{ icon = icons.snacks.RECENT_FILES, key = "r", desc = "Recent Files", action = function() Snacks.dashboard.pick("oldfiles") end },
 			{ icon = icons.snacks.FIND_FILE,    key = "f", desc = "Find File",    action = function() Snacks.dashboard.pick("files") end },
-			{ icon = icons.snacks.EXPLORER,     key = "e", desc = "Explorer",     action = function() Snacks.explorer({ layout = { layout = { width = 32 } } }) end },
+			{ icon = icons.snacks.EXPLORER,     key = "e", desc = "Explorer",     action = function() Snacks.explorer(require("config.snacks-explorer")) end },
 			{ icon = icons.snacks.GIT,          key = "G", desc = "Lazygit",      action = function() Snacks.lazygit() end },
 			{ icon = icons.snacks.LAZY,         key = "l", desc = "Lazy",         action = ":Lazy" },
 			{ icon = icons.mason.MASON,         key = "m", desc = "Mason",        action = ":Mason" },

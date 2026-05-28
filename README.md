@@ -387,7 +387,7 @@ Auto-reopens when the last real buffer is closed.
 ### UI / Toggles
 | Key | Action |
 |-----|--------|
-| `<leader>e` / `<A-e>` | File explorer |
+| `<leader>e` / `<C-e>` | File explorer |
 | `<leader>z` | Zen mode |
 | `<leader>Z` | Zoom |
 | `<leader>x` | Delete buffer |
