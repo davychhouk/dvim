@@ -9,6 +9,8 @@ return {
 		local icons = require("util.icons").mason
 		require("mason").setup({
 			ui = {
+				width = 0.8,
+				height = 0.8,
 				icons = {
 					package_pending = icons.PENDING,
 					package_installed = icons.INSTALLED,
