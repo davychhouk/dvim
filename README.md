@@ -142,7 +142,6 @@ snippets/                 filetype snippet files (LuaSnip)
 ### AI
 | Plugin | Description |
 |--------|-------------|
-| [supermaven-nvim](https://github.com/supermaven-inc/supermaven-nvim) | AI inline completion |
 | [claudecode.nvim](https://github.com/coder/claudecode.nvim) | Claude Code integration |
 
 ### Productivity
@@ -447,13 +446,6 @@ Auto-reopens when the last real buffer is closed.
 | `<leader>ccs` | Send selection to Claude (visual) |
 | `<leader>cca` | Accept diff |
 | `<leader>ccd` | Deny diff |
-
-**Supermaven** (insert mode, only when ghost text is showing)
-| Key | Action |
-|-----|--------|
-| `<Tab>` | Accept suggestion |
-| `<C-j>` | Accept word |
-| `<C-]>` | Clear suggestion |
 
 ### Neorg (`.norg` files)
 | Key | Action |
