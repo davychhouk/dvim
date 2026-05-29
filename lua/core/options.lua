@@ -14,6 +14,9 @@ o.tabstop = 2
 -- disable default mode for lualine
 o.showmode = false
 
+-- disable nvim intro screen (snacks dashboard handles it)
+o.shortmess:append("I")
+
 -- disable word wrap
 o.wrap = false
 
