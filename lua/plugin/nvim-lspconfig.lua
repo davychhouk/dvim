@@ -166,7 +166,7 @@ return {
 				map("n", "K", vim.lsp.buf.hover, opts)
 
 				opts.desc = "Restart LSP"
-				map("n", "<leader>rs", ":LspRestart<CR>", opts)
+				map("n", "<leader>rs", ":lsp restart<CR>", opts)
 
 				-- Disable builtin LSP document color, nvim-highlight-colors handles this
 				-- This comes with nvim v0.12.0
