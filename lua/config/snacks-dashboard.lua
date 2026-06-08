@@ -1,5 +1,37 @@
 -- Auto-open dashboard when last real buffer is closed
 local grp = vim.api.nvim_create_augroup("snacks_auto_dashboard", { clear = true })
+
+-- A tab page is "empty" when none of its windows show a real buffer
+-- (listed and either named or modified).
+local function cur_tab_is_empty()
+	for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		local b = vim.api.nvim_win_get_buf(w)
+		if vim.bo[b].buflisted and (vim.api.nvim_buf_get_name(b) ~= "" or vim.bo[b].modified) then
+			return false
+		end
+	end
+	return true
+end
+
+-- Wipe the phantom [No Name] buffers Neovim creates when the last listed
+-- buffer is deleted. Skip the dashboard itself. Deferred: the phantom may
+-- not exist yet at call time.
+local function wipe_phantom_buffers()
+	vim.schedule(function()
+		for _, b in ipairs(vim.api.nvim_list_bufs()) do
+			if
+				vim.api.nvim_buf_is_valid(b)
+				and vim.bo[b].buflisted
+				and vim.api.nvim_buf_get_name(b) == ""
+				and not vim.bo[b].modified
+				and vim.bo[b].filetype ~= "snacks_dashboard"
+			then
+				pcall(vim.api.nvim_buf_delete, b, {})
+			end
+		end
+	end)
+end
+
 vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
 	group = grp,
 	callback = function(args)
@@ -20,6 +52,16 @@ vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
 			end
 			-- Already on dashboard, nothing to do
 			if vim.bo.filetype == "snacks_dashboard" then
+				return
+			end
+			-- With multiple tab pages, never open the dashboard. If the
+			-- current tab is now empty, close it so Neovim switches to
+			-- another tab page instead.
+			if vim.fn.tabpagenr("$") > 1 then
+				if cur_tab_is_empty() then
+					pcall(vim.cmd.tabclose)
+					wipe_phantom_buffers()
+				end
 				return
 			end
 			-- Look for any remaining "real" buffer (named or modified).
@@ -44,21 +86,7 @@ vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
 			end
 			-- Open dashboard in current window
 			snacks.dashboard.open({ win = win })
-			-- Cleanup: wipe the phantom [No Name] buffer Neovim creates
-			-- when the last listed buffer is deleted. Skip the dashboard itself.
-			vim.schedule(function()
-				for _, b in ipairs(vim.api.nvim_list_bufs()) do
-					if
-						vim.api.nvim_buf_is_valid(b)
-						and vim.bo[b].buflisted
-						and vim.api.nvim_buf_get_name(b) == ""
-						and not vim.bo[b].modified
-						and vim.bo[b].filetype ~= "snacks_dashboard"
-					then
-						pcall(vim.api.nvim_buf_delete, b, {})
-					end
-				end
-			end)
+			wipe_phantom_buffers()
 		end)
 	end,
 })

@@ -13,6 +13,7 @@ return {
 		local selected_bg = macchiato.surface0
 		local selected_fg = macchiato.text
 		local modified_fg = macchiato.sapphire
+		local tab_accent = macchiato.sapphire
 		local inactive_set = { fg = inactive_fg, bg = inactive_bg }
 		local visible_set = { fg = visible_fg, bg = visible_bg }
 		local active_set = { fg = selected_fg, bg = selected_bg }
@@ -71,6 +72,11 @@ return {
 				separator = { fg = background, bg = inactive_bg },
 				separator_visible = { fg = background, bg = visible_bg },
 				separator_selected = { fg = background, bg = selected_bg },
+				tab = { fg = inactive_fg, bg = background },
+				tab_selected = { fg = background, bg = tab_accent },
+				tab_separator = { fg = background, bg = background },
+				tab_separator_selected = { fg = background, bg = tab_accent },
+				tab_close = { fg = inactive_fg, bg = background },
 				trunc_marker = { fg = macchiato.sapphire, bg = background },
 				warning = inactive_set,
 				warning_visible = visible_set,
@@ -117,7 +123,7 @@ return {
 				},
 				themable = true,
 				truncate_names = false,
-				show_tab_indicators = false,
+				show_tab_indicators = true,
 			},
 		})
 		-- Mappings
