@@ -43,7 +43,7 @@ return {
 		{ "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
 		{ "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
 		{ "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
-		{ "<leader>nt", function() Snacks.picker.notifications() end, desc = "Notification History" },
+		{ "<leader>uN", function() Snacks.picker.notifications() end, desc = "Notification History" },
 		{ "<leader>e", function() Snacks.explorer(require("config.snacks-explorer")) end, desc = "File Explorer" },
 		{ "<C-e>", function() Snacks.explorer(require("config.snacks-explorer")) end, desc = "File Explorer" },
 		-- Find
@@ -113,7 +113,7 @@ return {
 		{ "<leader>X", function() Snacks.bufdelete.other() end, desc = "Delete Other Buffers" },
 		{ "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
 		{ "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
-		{ "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+		{ "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss Notifications" },
 		{ "]]", function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
 		{ "[[", function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
 		{ "<leader>N", function() Snacks.win(require("config.snacks-news")) end, desc = "Neovim News" },
