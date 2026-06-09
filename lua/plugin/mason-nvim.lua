@@ -5,6 +5,7 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	cmd = { "Mason", "MasonUpdate" },
+	event = "VeryLazy",
 	config = function()
 		local icons = require("util.icons").mason
 		require("mason").setup({
