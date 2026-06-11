@@ -36,7 +36,7 @@ return {
 				lazygit = require("config.snacks-lazygit"),
 				notification = { wo = { wrap = true } },
 			},
-			terminal = { enabled = true },
+			terminal = { enabled = true, win = { wo = { winbar = "" } } },
 			toggle = { enabled = true },
 			words = { enabled = true },
 			zen = require("config.snacks-zen"),
