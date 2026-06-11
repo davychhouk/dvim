@@ -9,6 +9,7 @@ return {
 			enable_hex = true,
 			enable_hsl = true,
 			enable_hsl_without_function = true,
+			enable_hyprland = true,
 			enable_ls_colors = true,
 			enable_named_colors = true,
 			enable_oklch = true,
