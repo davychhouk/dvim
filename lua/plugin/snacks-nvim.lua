@@ -28,6 +28,11 @@ return {
 			statuscolumn = { enabled = true },
 			styles = {
 				dashboard = { wo = { fillchars = "eob: " } },
+				input = {
+					relative = "editor",
+					row = 0.85,
+					width = 75,
+				},
 				lazygit = require("config.snacks-lazygit"),
 				notification = { wo = { wrap = true } },
 			},
