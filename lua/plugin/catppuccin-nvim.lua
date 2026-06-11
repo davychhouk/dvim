@@ -37,7 +37,7 @@ return {
 					SnacksPickerBoxTitle = snack_picker_hl,
 					SnacksPickerInputTitle = snack_picker_hl,
 					SnacksPickerPreviewTitle = snack_picker_hl,
-					WinSeparator = { fg = macchiato.blue },
+					WinSeparator = { fg = macchiato.base },
 				}
 			end,
 			float = {
