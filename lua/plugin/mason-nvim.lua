@@ -23,8 +23,10 @@ return {
 		require("mason-lspconfig").setup({
 			automatic_enable = false,
 			ensure_installed = {
+				"azure_pipelines_ls",
 				"bashls",
 				"cssls",
+				"gopls",
 				"html",
 				"lua_ls",
 				"jsonls",
@@ -38,12 +40,17 @@ return {
 
 		require("mason-tool-installer").setup({
 			ensure_installed = {
+				"gofumpt",
+				"goimports",
 				"oxfmt",
 				"oxlint",
 				"prettierd",
 				"ruff",
 				"rust-analyzer",
+				"shellcheck",
+				"shfmt",
 				"stylua",
+				"yamlfmt",
 			},
 		})
 	end,
