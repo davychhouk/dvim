@@ -2,6 +2,12 @@ return {
 	enabled = true,
 	layout = { layout = { backdrop = false } },
 	sources = {
+		notifications = {
+			win = {
+				input = { keys = { ["<c-y>"] = { "copy", mode = { "i", "n" } } } },
+				list = { keys = { ["<c-y>"] = "copy" } },
+			},
+		},
 		explorer = {
 			-- H toggle hidden
 			-- I toggle ignored

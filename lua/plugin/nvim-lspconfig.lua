@@ -94,8 +94,11 @@ return {
 		})
 
 		-- azure_pipelines_ls owns Azure Pipelines schema (filetype yaml, started on root marker)
+		-- workspace_required: only start when an azure-pipelines.yml root marker exists, so it
+		-- doesn't attach to unrelated yaml (e.g. sops) with rootUri=null and crash on initialize
 		lsp.config("azure_pipelines_ls", {
 			capabilities = capabilities,
+			workspace_required = true,
 			settings = {
 				yaml = {
 					schemas = {
