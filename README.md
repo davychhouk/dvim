@@ -53,9 +53,9 @@ LSP servers, formatters, linters, and DAP adapters install on first launch — n
 
 | Type | Tools |
 |------|-------|
-| LSP | `bashls`, `cssls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls` |
-| Formatters | `oxfmt`, `prettierd`, `ruff`, `stylua` (rustfmt via toolchain) |
-| Linters | `oxlint` |
+| LSP | `azure_pipelines_ls`, `bashls`, `cssls`, `gopls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls` |
+| Formatters | `gofumpt`, `goimports`, `oxfmt`, `prettierd`, `ruff`, `shfmt`, `stylua`, `yamlfmt` (rustfmt via toolchain) |
+| Linters | `oxlint`, `shellcheck` |
 | DAP | `codelldb`, `delve` (rust-analyzer via mason-tool-installer) |
 
 ## Structure
