@@ -2,7 +2,7 @@
 
 A Customized Neovim config (Nvim + Snacks.nvim + lazy.nvim).
 
-<img width="1512" height="949" alt="image" src="https://github.com/user-attachments/assets/ab2788c5-d0d4-444c-bb39-c81eb6d729dc" />
+<img width="1512" height="947" alt="image" src="https://github.com/user-attachments/assets/52d6060d-7dd5-48cd-a3c2-a2d7f7e968cb" />
 
 ## Adoption
 
