@@ -14,6 +14,7 @@ return {
 		-- Servers excluded from auto-enable: configured manually below, or owned by another plugin
 		-- rust_analyzer is managed by rustaceanvim
 		local excluded_servers = {
+			"azure_pipelines_ls",
 			"cssls",
 			"lua_ls",
 			"nixd",
@@ -87,12 +88,22 @@ return {
 			capabilities = capabilities,
 			settings = {
 				yaml = {
-					schemaStore = { enable = false, url = "" },
+					schemaStore = { enable = true, url = "https://www.schemastore.org/api/json/catalog.json" },
+				},
+			},
+		})
+
+		-- azure_pipelines_ls owns Azure Pipelines schema (filetype yaml, started on root marker)
+		lsp.config("azure_pipelines_ls", {
+			capabilities = capabilities,
+			settings = {
+				yaml = {
 					schemas = {
 						["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
 							"azure-pipelines.yml",
 							".azure-pipelines.yml",
 							"azure-pipelines/*.yml",
+							"**/azure-pipelines*.yml",
 						},
 					},
 				},
@@ -115,7 +126,7 @@ return {
 		})
 
 		-- Enable individual language servers
-		lsp.enable({ "cssls", "lua_ls", "nixd", "oxlint", "tailwindcss", "yamlls" })
+		lsp.enable({ "azure_pipelines_ls", "cssls", "lua_ls", "nixd", "oxlint", "tailwindcss", "yamlls" })
 
 		-- Toggle codebook LSP
 		vim.keymap.set("n", "<leader>cb", function()
