@@ -1,5 +1,9 @@
 local M = {}
 
+M.claude = {
+	CLAUDE = "󰬊",
+}
+
 M.dap = {
 	BREAKPOINT = "",
 	BREAKPOINT_CONDITION = "",

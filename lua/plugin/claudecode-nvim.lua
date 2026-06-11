@@ -1,6 +1,14 @@
 return {
 	"coder/claudecode.nvim",
 	dependencies = { "folke/snacks.nvim" },
+	cmd = {
+		"ClaudeCode",
+		"ClaudeCodeFocus",
+		"ClaudeCodeSend",
+		"ClaudeCodeAdd",
+		"ClaudeCodeDiffAccept",
+		"ClaudeCodeDiffDeny",
+	},
 	opts = {
 		-- Server Configuration
 		port_range = { min = 10000, max = 65535 },
