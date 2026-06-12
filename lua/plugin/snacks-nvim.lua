@@ -18,7 +18,7 @@ return {
 			indent = { enabled = true },
 			input = { enabled = true },
 			lazygit = { enabled = true },
-			notifier = { enabled = true },
+			notifier = require("config.snacks-notifier"),
 			picker = require("config.snacks-picker"),
 			profiler = { enabled = true },
 			quickfile = { enabled = true },

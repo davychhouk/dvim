@@ -1,6 +1,5 @@
 return {
 	"kokusenz/deltaview.nvim",
-	dependencies = { "kokusenz/delta.lua" },
 	cmd = { "DeltaView", "DeltaMenu", "Delta" },
 	keys = {
 		{ "<leader>dvm", "<CMD>DeltaMenu<CR>", desc = "Toggle DeltaMenu" },

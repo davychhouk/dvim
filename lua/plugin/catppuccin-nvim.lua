@@ -33,6 +33,7 @@ return {
 					FloatBorder = { bg = macchiato.base, fg = macchiato.blue },
 					NormalFloat = { bg = macchiato.base, fg = macchiato.text },
 					OffsetCustom = { bg = macchiato.base, fg = macchiato.sapphire },
+					SnacksTitle = snack_picker_hl,
 					SnacksPickerBorder = snack_picker_hl,
 					SnacksPickerBoxTitle = snack_picker_hl,
 					SnacksPickerInputTitle = snack_picker_hl,
