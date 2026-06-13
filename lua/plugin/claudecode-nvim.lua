@@ -99,6 +99,15 @@ return {
 					end
 					vim.b[buf]._diff_hl_applied = true
 
+					-- Crash fix: render-markdown's buffer autocmd calls win_findbuf() on
+					-- DiffUpdated/WinScrolled; during claudecode's new-tab :tabclose teardown
+					-- that hits a freed window -> SIGSEGV in Neovim 0.12.x (markdown diffs only,
+					-- e.g. spec.md/plan.md). Disabling it for the diff buffer makes the callback
+					-- bail before win_findbuf. Drop once the upstream nvim win_findbuf fix lands.
+					pcall(function()
+						require("render-markdown").set_buf(false)
+					end)
+
 					local new_win = vim.api.nvim_get_current_win()
 					vim.wo[new_win].winhighlight = "DiffChange:DiffChangeAdd,DiffText:DiffTextAdd"
 					for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
