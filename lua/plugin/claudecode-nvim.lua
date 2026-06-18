@@ -30,7 +30,7 @@ return {
 		---@diagnostic disable-next-line: missing-fields
 		terminal = {
 			split_side = "right", -- "left" or "right"
-			split_width_percentage = 0.35,
+			split_width_percentage = 0.45,
 			provider = "auto", -- "auto", "snacks", "native", "external", "none", or custom provider table
 			auto_close = true,
 			snacks_win_opts = {}, -- Opts to pass to `Snacks.terminal.open()` - see Floating Window section below
