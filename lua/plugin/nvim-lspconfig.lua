@@ -182,6 +182,20 @@ return {
 				opts.desc = "Restart LSP"
 				map("n", "<leader>rs", ":lsp restart<CR>", opts)
 
+				local client = vim.lsp.get_client_by_id(ev.data.client_id)
+
+				-- Inlay hints on by default; toggle off with <leader>uh when noisy
+				if client and client:supports_method("textDocument/inlayHint") then
+					vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+				end
+
+				-- Code lens: enable (auto-refreshes internally), run with <leader>cL
+				if client and client:supports_method("textDocument/codeLens") then
+					vim.lsp.codelens.enable(true, { bufnr = ev.buf })
+					opts.desc = "Run code lens"
+					map("n", "<leader>cL", vim.lsp.codelens.run, opts)
+				end
+
 				-- Disable builtin LSP document color, nvim-highlight-colors handles this
 				-- This comes with nvim v0.12.0
 				vim.lsp.document_color.enable(false)
