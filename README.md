@@ -26,7 +26,7 @@ On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mas
 
 | Tool                                                          | Purpose                                |
 | ------------------------------------------------------------- | -------------------------------------- |
-| Neovim >= 0.10                                                | Runtime                                |
+| Neovim >= 0.12                                                | Runtime                                |
 | git                                                           | lazy.nvim bootstrap                    |
 | [ripgrep](https://github.com/BurntSushi/ripgrep)              | Grep picker (`rg`)                     |
 | [fd](https://github.com/sharkdp/fd)                           | File finder                            |
@@ -55,7 +55,7 @@ LSP servers, formatters, linters, and DAP adapters install on first launch — n
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | LSP        | `azure_pipelines_ls`, `bashls`, `cssls`, `gopls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls` |
 | Formatters | `gofumpt`, `goimports`, `oxfmt`, `prettierd`, `ruff`, `shfmt`, `stylua`, `yamlfmt` (rustfmt via toolchain)                         |
-| Linters    | `oxlint`, `shellcheck`                                                                                                             |
+| Linters    | `oxlint`, `ruff`, `selene`, `shellcheck`, `statix`                                                                                |
 | DAP        | `codelldb`, `delve` (rust-analyzer via mason-tool-installer)                                                                       |
 
 ## Structure
@@ -116,7 +116,6 @@ snippets/                 filetype snippet files (LuaSnip)
 | [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim)   | Search and replace UI                            |
 | [conform.nvim](https://github.com/stevearc/conform.nvim)      | Formatter runner                                 |
 | [coerce.nvim](https://github.com/gregorias/coerce.nvim)       | Case coercion (camel, snake, kebab, etc.)        |
-| [unnest.nvim](https://github.com/brianhuster/unnest.nvim)     | Unwrap/unnest expressions                        |
 
 ### Git
 
@@ -133,6 +132,7 @@ snippets/                 filetype snippet files (LuaSnip)
 | ---------------------------------------------------------- | ------------------------------------------------------ |
 | [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | LSP client configs                                     |
 | [mason.nvim](https://github.com/mason-org/mason.nvim)      | LSP, linter, and formatter installer                   |
+| [nvim-lint](https://github.com/mfussenegger/nvim-lint)     | Asynchronous linter runner                             |
 | [lazydev.nvim](https://github.com/folke/lazydev.nvim)      | Lua LSP for Neovim config and plugin development       |
 | [trouble.nvim](https://github.com/folke/trouble.nvim)      | Diagnostics and LSP results list                       |
 | [rustaceanvim](https://github.com/mrcjkb/rustaceanvim)     | Enhanced Rust LSP (rust-analyzer)                      |
@@ -372,6 +372,8 @@ Auto-reopens when the last real buffer is closed.
 |-----|--------|
 | `K` | Hover documentation |
 | `<leader>ca` | Code action (normal + visual) |
+| `<leader>cf` | Format buffer / range (normal + visual) |
+| `<leader>cL` | Run code lens |
 | `<leader>rn` | Rename symbol |
 | `<leader>di` | Show line diagnostics (float) |
 | `[d` / `]d` | Prev / next diagnostic |
