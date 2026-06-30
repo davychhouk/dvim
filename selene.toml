@@ -1,0 +1,6 @@
+std = ".selene-nvim"
+exclude = ["**/.direnv/**"]
+
+[lints]
+# lazy.nvim specs intentionally mix positional [1] with named keys
+mixed_table = "allow"

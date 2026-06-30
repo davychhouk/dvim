@@ -110,7 +110,9 @@ return {
 			if not (Snacks.zen.win and Snacks.zen.win:valid()) then
 				local explorer = Snacks.picker.get({ source = "explorer" })[1]
 				vim.g._zoom_had_explorer = explorer ~= nil
-				if explorer then explorer:close() end
+				if explorer then
+					explorer:close()
+				end
 			end
 			Snacks.zen.zoom()
 		end, desc = "Toggle Zoom" },

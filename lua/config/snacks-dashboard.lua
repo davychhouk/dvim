@@ -46,6 +46,7 @@ vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
 		-- Defer: BufDelete fires before the buffer is fully gone
 		vim.schedule(function()
 			-- Bail if Snacks isn't loaded yet
+			-- selene: allow(global_usage)
 			local snacks = rawget(_G, "Snacks")
 			if not snacks then
 				return

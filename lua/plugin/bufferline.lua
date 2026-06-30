@@ -133,6 +133,7 @@ return {
 		map("n", "<leader>bp", "<CMD>BufferLinePick<CR>", { desc = "Pick Buffer" })
 		map("n", "<leader>bn", "<CMD>enew<CR>", { desc = "New Buffer" })
     -- stylua: ignore
+    -- selene: allow(multiple_statements)
     map("n", "<leader>bca", function() Snacks.bufdelete.all() end, { desc = "Close All Buffers" })
 		-- stylua: ignore end
 		map("n", "<leader>bcc", "<CMD>BufferLinePickClose<CR>", { desc = "Close Buffer" })
