@@ -1,21 +1,21 @@
 return {
-	"folke/lazydev.nvim",
-	ft = "lua",
-	opts = {
-		library = {
-			{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-			{
-				path = "${3rd}/busted/library",
-				words = {
-					"describe",
-					"it",
-					"before_each",
-					"after_each",
-					"stub",
-					"spy",
-					"mock",
-				},
-			},
-		},
-	},
+  "folke/lazydev.nvim",
+  ft = "lua",
+  opts = {
+    library = {
+      { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      {
+        path = "${3rd}/busted/library",
+        words = {
+          "describe",
+          "it",
+          "before_each",
+          "after_each",
+          "stub",
+          "spy",
+          "mock",
+        },
+      },
+    },
+  },
 }

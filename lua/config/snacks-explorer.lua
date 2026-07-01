@@ -1,3 +1,3 @@
 return {
-	layout = { layout = { width = 32 } },
+  layout = { layout = { width = 32 } },
 }
