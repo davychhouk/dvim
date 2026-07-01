@@ -50,7 +50,7 @@ o.timeoutlen = 500
 
 -- clipboard (deferred to avoid slow provider detection on startup)
 vim.schedule(function()
-	o.clipboard:append("unnamedplus")
+  o.clipboard:append("unnamedplus")
 end)
 
 -- split windows
@@ -65,39 +65,39 @@ g.loaded_ruby_provider = 0
 
 -- filetype registrations
 vim.filetype.add({
-	extension = { gotmpl = "gotmpl" },
-	filename = {
-		[".gitlab-ci.yml"] = "yaml.gitlab",
-	},
-	pattern = {
-		["docker%-compose[^/]*.ya?ml"] = "yaml.docker-compose",
-		["compose[^/]*.ya?ml"] = "yaml.docker-compose",
-		[".*/templates/.*%.ya?ml"] = "yaml.helm-values",
-		["values%.ya?ml"] = "yaml.helm-values",
-		["azure%-pipelines%.ya?ml"] = "yaml.azure-pipelines",
-		["%.azure%-pipelines%.ya?ml"] = "yaml.azure-pipelines",
-		[".*/%.?azure%-pipelines/.*%.ya?ml"] = "yaml.azure-pipelines",
-	},
+  extension = { gotmpl = "gotmpl" },
+  filename = {
+    [".gitlab-ci.yml"] = "yaml.gitlab",
+  },
+  pattern = {
+    ["docker%-compose[^/]*.ya?ml"] = "yaml.docker-compose",
+    ["compose[^/]*.ya?ml"] = "yaml.docker-compose",
+    [".*/templates/.*%.ya?ml"] = "yaml.helm-values",
+    ["values%.ya?ml"] = "yaml.helm-values",
+    ["azure%-pipelines%.ya?ml"] = "yaml.azure-pipelines",
+    ["%.azure%-pipelines%.ya?ml"] = "yaml.azure-pipelines",
+    [".*/%.?azure%-pipelines/.*%.ya?ml"] = "yaml.azure-pipelines",
+  },
 })
 
 -- diagnostics (deferred, not needed until buffer loads)
 vim.schedule(function()
-	local i = require("util.icons")
-	local x = vim.diagnostic.severity
-	vim.diagnostic.config({
-		virtual_text = {
-			prefix = i.diagnostics.PREFIX,
-			virt_text_pos = "eol",
-		},
-		signs = {
-			text = {
-				[x.ERROR] = i.diagnostics.ERROR,
-				[x.WARN] = i.diagnostics.WARN,
-				[x.HINT] = i.diagnostics.HINT,
-				[x.INFO] = i.diagnostics.INFO,
-			},
-		},
-		underline = true,
-		float = { border = "single" },
-	})
+  local i = require("util.icons")
+  local x = vim.diagnostic.severity
+  vim.diagnostic.config({
+    virtual_text = {
+      prefix = i.diagnostics.PREFIX,
+      virt_text_pos = "eol",
+    },
+    signs = {
+      text = {
+        [x.ERROR] = i.diagnostics.ERROR,
+        [x.WARN] = i.diagnostics.WARN,
+        [x.HINT] = i.diagnostics.HINT,
+        [x.INFO] = i.diagnostics.INFO,
+      },
+    },
+    underline = true,
+    float = { border = "single" },
+  })
 end)

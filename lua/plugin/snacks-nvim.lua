@@ -1,47 +1,47 @@
 return {
-	"folke/snacks.nvim",
-	dependencies = {
-		"nvim-mini/mini.nvim",
-		"nvim-tree/nvim-web-devicons",
-	},
-	priority = 1000,
-	lazy = false,
-	opts = function()
-		return {
-			animate = { enabled = true },
-			bigfile = { enabled = true },
-			dashboard = require("config.snacks-dashboard"),
-			dim = { enabled = true },
-			explorer = { enabled = true },
-			git = { enabled = true },
-			image = { enabled = true },
-			indent = { enabled = true },
-			input = { enabled = true },
-			lazygit = { enabled = true },
-			notifier = require("config.snacks-notifier"),
-			picker = require("config.snacks-picker"),
-			profiler = { enabled = true },
-			quickfile = { enabled = true },
-			scope = { enabled = true },
-			scratch = { enabled = true },
-			scroll = { enabled = true },
-			statuscolumn = { enabled = true },
-			styles = {
-				dashboard = { wo = { fillchars = "eob: " } },
-				input = {
-					relative = "editor",
-					row = 0.85,
-					width = 75,
-				},
-				lazygit = require("config.snacks-lazygit"),
-				notification = { wo = { wrap = true } },
-			},
-			terminal = { enabled = true, win = { wo = { winbar = "" } } },
-			toggle = { enabled = true },
-			words = { enabled = true },
-			zen = require("config.snacks-zen"),
-		}
-	end,
+  "folke/snacks.nvim",
+  dependencies = {
+    "nvim-mini/mini.nvim",
+    "nvim-tree/nvim-web-devicons",
+  },
+  priority = 1000,
+  lazy = false,
+  opts = function()
+    return {
+      animate = { enabled = true },
+      bigfile = { enabled = true },
+      dashboard = require("config.snacks-dashboard"),
+      dim = { enabled = true },
+      explorer = { enabled = true },
+      git = { enabled = true },
+      image = { enabled = true },
+      indent = { enabled = true },
+      input = { enabled = true },
+      lazygit = { enabled = true },
+      notifier = require("config.snacks-notifier"),
+      picker = require("config.snacks-picker"),
+      profiler = { enabled = true },
+      quickfile = { enabled = true },
+      scope = { enabled = true },
+      scratch = { enabled = true },
+      scroll = { enabled = true },
+      statuscolumn = { enabled = true },
+      styles = {
+        dashboard = { wo = { fillchars = "eob: " } },
+        input = {
+          relative = "editor",
+          row = 0.85,
+          width = 75,
+        },
+        lazygit = require("config.snacks-lazygit"),
+        notification = { wo = { wrap = true } },
+      },
+      terminal = { enabled = true, win = { wo = { winbar = "" } } },
+      toggle = { enabled = true },
+      words = { enabled = true },
+      zen = require("config.snacks-zen"),
+    }
+  end,
 	-- stylua: ignore start
 	keys = {
 		-- Top Pickers & Explorer
@@ -129,5 +129,5 @@ return {
 		-- Terminal
 		{ "<C-t>", function() Snacks.terminal.toggle() end, mode = { "n", "t" }, desc = "Toggle Terminal" },
 	},
-	-- stylua: ignore end
+  -- stylua: ignore end
 }

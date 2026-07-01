@@ -11,6 +11,6 @@ require("core.options")
 
 -- Schedule secondaries
 vim.schedule(function()
-	require("core.mappings")
-	require("config.snacks-toggle")
+  require("core.mappings")
+  require("config.snacks-toggle")
 end)

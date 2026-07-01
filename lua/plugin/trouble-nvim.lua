@@ -1,7 +1,7 @@
 return {
-	"folke/trouble.nvim",
-	opts = {},
-	cmd = { "Trouble" },
+  "folke/trouble.nvim",
+  opts = {},
+  cmd = { "Trouble" },
   -- stylua: ignore
 	keys = {
 		{ "<leader>tx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
@@ -11,5 +11,5 @@ return {
 		{ "<leader>tL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
 		{ "<leader>tQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
 	},
-	-- stylua: ignore end
+  -- stylua: ignore end
 }
