@@ -145,6 +145,17 @@ snippets/                 filetype snippet files (LuaSnip)
 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)    | Syntax highlighting and text objects |
 | [tree-sitter-ghostty](https://github.com/bezhermoso/tree-sitter-ghostty) | Ghostty config grammar               |
 
+### Testing
+
+| Plugin                                                          | Description                                                |
+| --------------------------------------------------------------- | ---------------------------------------------------------- |
+| [neotest](https://github.com/nvim-neotest/neotest)              | Test runner with summary, output, and DAP-strategy support |
+| [neotest-golang](https://github.com/fredrikaverpil/neotest-golang) | Go adapter (`go test`)                                  |
+| [neotest-python](https://github.com/nvim-neotest/neotest-python)   | Python adapter (pytest / unittest)                      |
+| [neotest-vitest](https://github.com/marilari88/neotest-vitest)     | JS/TS adapter (Vitest)                                  |
+
+Rust tests run through rustaceanvim's built-in neotest adapter (no extra plugin). Each adapter needs its test tool available in the project (`go`, `pytest`, `vitest`, `cargo`).
+
 ### AI
 
 | Plugin                                                      | Description             |
@@ -403,6 +414,19 @@ Auto-reopens when the last real buffer is closed.
 | `<leader>dB`  | Set conditional breakpoint |
 | `<leader>dut` | Toggle DAP UI              |
 | `<leader>dl`  | Run last                   |
+
+### Testing (neotest)
+
+| Key          | Action                  |
+| ------------ | ----------------------- |
+| `<leader>tt` | Run nearest test        |
+| `<leader>tf` | Run tests in file       |
+| `<leader>td` | Debug nearest test      |
+| `<leader>tS` | Stop running test       |
+| `<leader>tw` | Watch file tests        |
+| `<leader>ts` | Toggle test summary     |
+| `<leader>to` | Show test output (float)|
+| `<leader>tp` | Toggle test output panel|
 
 ### UI / Toggles
 
