@@ -67,8 +67,6 @@ return {
 		},
 	},
 	config = function()
-		-- All fields present to satisfy neotest.Config; empty tables deep-merge to defaults,
-		-- scalars carry the upstream default value.
 		require("neotest").setup({
 			adapters = {
 				require("neotest-golang"),
@@ -76,25 +74,6 @@ return {
 				require("neotest-vitest"),
 				require("rustaceanvim.neotest"),
 			},
-			log_level = 3,
-			default_strategy = "integrated",
-			consumers = {},
-			icons = {},
-			highlights = {},
-			floating = {},
-			strategies = {},
-			run = {},
-			summary = {},
-			output = {},
-			output_panel = {},
-			quickfix = {},
-			status = {},
-			state = {},
-			watch = {},
-			diagnostic = {},
-			projects = {},
-			discovery = {},
-			running = {},
-		})
+		} --[[@as neotest.Config]])
 	end,
 }
