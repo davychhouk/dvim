@@ -75,6 +75,6 @@ return {
 				require("neotest-vitest"),
 				require("rustaceanvim.neotest"),
 			},
-		} --[[@as neotest.Config]])
+		})
 	end,
 }
