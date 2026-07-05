@@ -8,6 +8,8 @@ return {
     "ClaudeCodeAdd",
     "ClaudeCodeDiffAccept",
     "ClaudeCodeDiffDeny",
+    "ClaudeCodeCloseAllDiffs",
+    "ClaudeCodeSelectModel",
   },
   opts = {
     -- Server Configuration
@@ -157,8 +159,19 @@ return {
 		{ "<leader>ccC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
 		{ "<leader>ccd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny Diff" },
 		{ "<leader>ccf", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+		{ "<leader>cci", "<cmd>ClaudeCodeCloseAllDiffs<cr>", desc = "Ignore Claude Diffs" },
+		{ "<leader>ccm", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude Model" },
 		{ "<leader>ccr", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
 		{ "<leader>ccs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+		{
+			"<leader>cct",
+			function()
+				local lines = vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = vim.fn.mode() })
+				require("claudecode.terminal").send_to_terminal(table.concat(lines, "\n"))
+			end,
+			mode = "v",
+			desc = "Send Text to Claude",
+		},
 	},
   -- stylua: ignore end
 }
