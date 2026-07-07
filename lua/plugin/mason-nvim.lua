@@ -35,6 +35,7 @@ return {
         "taplo",
         "ts_ls",
         "yamlls",
+        "zls",
       },
     })
 

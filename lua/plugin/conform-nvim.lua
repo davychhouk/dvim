@@ -32,6 +32,7 @@ return {
         typescript = { "oxfmt", "prettierd", stop_after_first = true },
         typescriptreact = { "oxfmt", "prettierd", stop_after_first = true },
         yaml = { "oxfmt", "yamlfmt", stop_after_first = true },
+        zig = { "zigfmt" },
       },
       format_on_save = function(bufnr)
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
