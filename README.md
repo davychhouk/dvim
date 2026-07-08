@@ -42,6 +42,7 @@ On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mas
 | [delta](https://github.com/dandavison/delta)        | deltaview.nvim diff rendering                                   |
 | Node.js                                             | prettierd / ts_ls and other JS-based mason tools                |
 | [uv](https://github.com/astral-sh/uv)               | Python DAP (`dap-python` launches debugpy via `uv run`)         |
+| [Codex CLI](https://github.com/openai/codex)        | Codex.nvim terminal integration                                 |
 | Rust toolchain                                      | rustaceanvim local builds                                       |
 | tmux                                                | vim-tmux-navigator pane switching                               |
 | [nixd](https://github.com/nix-community/nixd)       | Nix LSP (enabled in lspconfig, not in mason — install manually) |
@@ -55,7 +56,7 @@ LSP servers, formatters, linters, and DAP adapters install on first launch — n
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | LSP        | `azure_pipelines_ls`, `bashls`, `cssls`, `gopls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls` |
 | Formatters | `gofumpt`, `goimports`, `oxfmt`, `prettierd`, `ruff`, `shfmt`, `stylua`, `yamlfmt` (rustfmt via toolchain)                         |
-| Linters    | `oxlint`, `ruff`, `selene`, `shellcheck`, `statix`                                                                                |
+| Linters    | `oxlint`, `ruff`, `selene`, `shellcheck`, `statix`                                                                                 |
 | DAP        | `codelldb`, `delve` (rust-analyzer via mason-tool-installer)                                                                       |
 
 ## Structure
@@ -147,12 +148,12 @@ snippets/                 filetype snippet files (LuaSnip)
 
 ### Testing
 
-| Plugin                                                          | Description                                                |
-| --------------------------------------------------------------- | ---------------------------------------------------------- |
-| [neotest](https://github.com/nvim-neotest/neotest)              | Test runner with summary, output, and DAP-strategy support |
-| [neotest-golang](https://github.com/fredrikaverpil/neotest-golang) | Go adapter (`go test`)                                  |
-| [neotest-python](https://github.com/nvim-neotest/neotest-python)   | Python adapter (pytest / unittest)                      |
-| [neotest-vitest](https://github.com/marilari88/neotest-vitest)     | JS/TS adapter (Vitest)                                  |
+| Plugin                                                             | Description                                                |
+| ------------------------------------------------------------------ | ---------------------------------------------------------- |
+| [neotest](https://github.com/nvim-neotest/neotest)                 | Test runner with summary, output, and DAP-strategy support |
+| [neotest-golang](https://github.com/fredrikaverpil/neotest-golang) | Go adapter (`go test`)                                     |
+| [neotest-python](https://github.com/nvim-neotest/neotest-python)   | Python adapter (pytest / unittest)                         |
+| [neotest-vitest](https://github.com/marilari88/neotest-vitest)     | JS/TS adapter (Vitest)                                     |
 
 Rust tests run through rustaceanvim's built-in neotest adapter (no extra plugin). Each adapter needs its test tool available in the project (`go`, `pytest`, `vitest`, `cargo`).
 
@@ -161,6 +162,7 @@ Rust tests run through rustaceanvim's built-in neotest adapter (no extra plugin)
 | Plugin                                                      | Description             |
 | ----------------------------------------------------------- | ----------------------- |
 | [claudecode.nvim](https://github.com/coder/claudecode.nvim) | Claude Code integration |
+| [codex.nvim](https://github.com/johnseth97/codex.nvim)      | Codex CLI integration   |
 
 ### Productivity
 
@@ -417,16 +419,16 @@ Auto-reopens when the last real buffer is closed.
 
 ### Testing (neotest)
 
-| Key          | Action                  |
-| ------------ | ----------------------- |
-| `<leader>tt` | Run nearest test        |
-| `<leader>tf` | Run tests in file       |
-| `<leader>td` | Debug nearest test      |
-| `<leader>tS` | Stop running test       |
-| `<leader>tw` | Watch file tests        |
-| `<leader>ts` | Toggle test summary     |
-| `<leader>to` | Show test output (float)|
-| `<leader>tp` | Toggle test output panel|
+| Key          | Action                   |
+| ------------ | ------------------------ |
+| `<leader>tt` | Run nearest test         |
+| `<leader>tf` | Run tests in file        |
+| `<leader>td` | Debug nearest test       |
+| `<leader>tS` | Stop running test        |
+| `<leader>tw` | Watch file tests         |
+| `<leader>ts` | Toggle test summary      |
+| `<leader>to` | Show test output (float) |
+| `<leader>tp` | Toggle test output panel |
 
 ### UI / Toggles
 
