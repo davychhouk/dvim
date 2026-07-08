@@ -150,6 +150,7 @@ return {
 		-- stylua: ignore start
 		keys = {
       { icon = icons.claude.CLAUDE,       key = "c", desc = "Claude Code",  action = ":ClaudeCode" },
+      { icon = icons.snacks.ZAP,          key = "x", desc = "Codex",        action = ":Codex" },
       { icon = icons.snacks.EXPLORER,     key = "e", desc = "Explorer",     action = function() Snacks.explorer(require("config.snacks-explorer")) end },
 			{ icon = icons.snacks.FIND_FILE,    key = "f", desc = "Find File",    action = function() Snacks.dashboard.pick("files") end },
       { icon = icons.snacks.LAZY,         key = "l", desc = "Lazy",         action = ":Lazy" },
