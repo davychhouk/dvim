@@ -1,5 +1,5 @@
 return {
-  "AnthonyBarbier/codex.nvim",
+  "johnseth97/codex.nvim",
   cmd = { "Codex", "CodexToggle" },
   opts = {
     keymaps = {
@@ -15,12 +15,12 @@ return {
   },
   config = function(_, opts)
     require("codex").setup(opts)
-    vim.api.nvim_create_autocmd({ "BufEnter", "TermEnter", "WinEnter" }, {
+    vim.api.nvim_create_autocmd({ "BufEnter", "TermEnter", "TermOpen", "WinEnter" }, {
       group = vim.api.nvim_create_augroup("codex_start_insert", { clear = true }),
       callback = function()
         vim.schedule(function()
           local buf = vim.api.nvim_get_current_buf()
-          if vim.bo[buf].filetype ~= "codex" then
+          if vim.bo[buf].filetype ~= "codex" or vim.bo[buf].buftype ~= "terminal" then
             return
           end
           vim.cmd("startinsert")

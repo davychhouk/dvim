@@ -4,6 +4,10 @@ M.claude = {
   CLAUDE = "󰬊",
 }
 
+M.codex = {
+  CODEX = "",
+}
+
 M.dap = {
   BREAKPOINT = "",
   BREAKPOINT_CONDITION = "",
