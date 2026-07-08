@@ -16,15 +16,14 @@ return {
   config = function(_, opts)
     require("codex").setup(opts)
     vim.api.nvim_create_autocmd({ "BufEnter", "TermEnter", "WinEnter" }, {
-      group = vim.api.nvim_create_augroup("codex_scroll_bottom", { clear = true }),
+      group = vim.api.nvim_create_augroup("codex_start_insert", { clear = true }),
       callback = function()
         vim.schedule(function()
-          local win = vim.api.nvim_get_current_win()
-          local buf = vim.api.nvim_win_get_buf(win)
+          local buf = vim.api.nvim_get_current_buf()
           if vim.bo[buf].filetype ~= "codex" then
             return
           end
-          pcall(vim.api.nvim_win_set_cursor, win, { vim.api.nvim_buf_line_count(buf), 0 })
+          vim.cmd("startinsert")
         end)
       end,
     })
