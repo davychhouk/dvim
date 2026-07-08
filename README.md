@@ -162,7 +162,7 @@ Rust tests run through rustaceanvim's built-in neotest adapter (no extra plugin)
 | Plugin                                                      | Description             |
 | ----------------------------------------------------------- | ----------------------- |
 | [claudecode.nvim](https://github.com/coder/claudecode.nvim) | Claude Code integration |
-| [codex.nvim](https://github.com/johnseth97/codex.nvim)      | Codex CLI integration   |
+| [codex.nvim](https://github.com/AnthonyBarbier/codex.nvim)  | Codex CLI integration   |
 
 ### Productivity
 

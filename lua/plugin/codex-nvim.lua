@@ -1,5 +1,5 @@
 return {
-  "johnseth97/codex.nvim",
+  "AnthonyBarbier/codex.nvim",
   cmd = { "Codex", "CodexToggle" },
   opts = {
     keymaps = {
