@@ -14,79 +14,54 @@ return {
     local parser_dir = vim.fn.stdpath("data") .. "/site/parser"
     vim.fn.mkdir(parser_dir, "p")
 
-    local is_mac = vim.fn.has("mac") == 1
-    -- macOS uses bundle flags; Linux GCC requires separate C/C++ compilation to avoid
-    -- "non-trivial designated initializers not supported" error in C++ mode
+    -- macOS bundles, Linux shared objects.
     local function link_flags(out)
-      if is_mac then
+      if vim.fn.has("mac") == 1 then
         return "-bundle -undefined dynamic_lookup -o " .. out
       else
         return "-shared -o " .. out
       end
     end
 
-    -- norg
-    local tmp = vim.fn.tempname()
-    vim.fn.system("git clone --depth 1 https://github.com/nvim-neorg/tree-sitter-norg " .. tmp)
-    if vim.v.shell_error ~= 0 then
-      vim.fn.delete(tmp, "rf")
-      vim.notify("Failed to clone tree-sitter-norg", vim.log.levels.ERROR)
-    else
-      local norg_so = parser_dir .. "/norg.so"
-      local out
-      if is_mac then
-        out = vim.fn.system(
-          "c++ -fPIC -I"
-            .. tmp
-            .. "/src "
-            .. link_flags(norg_so)
-            .. " "
-            .. tmp
-            .. "/src/parser.c "
-            .. tmp
-            .. "/src/scanner.cc 2>&1"
-        )
-      else
-        -- Compile parser.c as C to avoid GCC's C++ designated initializer limitation
-        local parser_obj = tmp .. "/parser.o"
-        local scanner_obj = tmp .. "/scanner.o"
-        vim.fn.system("cc -c -fPIC -I" .. tmp .. "/src -o " .. parser_obj .. " " .. tmp .. "/src/parser.c 2>&1")
-        local ok1 = vim.v.shell_error == 0
-        vim.fn.system("c++ -c -fPIC -I" .. tmp .. "/src -o " .. scanner_obj .. " " .. tmp .. "/src/scanner.cc 2>&1")
-        local ok2 = vim.v.shell_error == 0
-        if ok1 and ok2 then
-          out = vim.fn.system("c++ " .. link_flags(norg_so) .. " " .. parser_obj .. " " .. scanner_obj .. " 2>&1")
-        else
-          out = "compilation failed"
-        end
-      end
-      vim.fn.delete(tmp, "rf")
+    -- parser.c must be compiled as C: GCC rejects its designated initializers in C++
+    -- mode, and `cc`/`c++` may be GCC on macOS too (nix puts it ahead of clang).
+    local function build(repo, name, scanner)
+      local tmp = vim.fn.tempname()
+      vim.fn.system("git clone --depth 1 " .. repo .. " " .. tmp)
       if vim.v.shell_error ~= 0 then
-        vim.notify("Failed to build norg parser:\n" .. out, vim.log.levels.ERROR)
+        vim.fn.delete(tmp, "rf")
+        vim.notify("Failed to clone " .. repo, vim.log.levels.ERROR)
+        return
+      end
+
+      local objs = { tmp .. "/parser.o" }
+      local out = vim.fn.system("cc -c -fPIC -I" .. tmp .. "/src -o " .. objs[1] .. " " .. tmp .. "/src/parser.c 2>&1")
+      local failed = vim.v.shell_error ~= 0
+
+      if not failed and scanner then
+        objs[2] = tmp .. "/scanner.o"
+        out = vim.fn.system("c++ -c -fPIC -I" .. tmp .. "/src -o " .. objs[2] .. " " .. tmp .. "/src/scanner.cc 2>&1")
+        failed = vim.v.shell_error ~= 0
+      end
+
+      if not failed then
+        local linker = scanner and "c++" or "cc"
+        out = vim.fn.system(
+          linker .. " " .. link_flags(parser_dir .. "/" .. name .. ".so") .. " " .. table.concat(objs, " ") .. " 2>&1"
+        )
+        failed = vim.v.shell_error ~= 0
+      end
+
+      vim.fn.delete(tmp, "rf")
+      if failed then
+        vim.notify("Failed to build " .. name .. " parser:\n" .. out, vim.log.levels.ERROR)
       else
-        vim.notify("norg parser built successfully")
+        vim.notify(name .. " parser built successfully")
       end
     end
 
-    -- norg_meta
-    tmp = vim.fn.tempname()
-    vim.fn.system("git clone --depth 1 https://github.com/nvim-neorg/tree-sitter-norg-meta " .. tmp)
-    if vim.v.shell_error ~= 0 then
-      vim.fn.delete(tmp, "rf")
-      vim.notify("Failed to clone tree-sitter-norg-meta", vim.log.levels.ERROR)
-      return
-    end
-
-    local out = vim.fn.system(
-      "cc -fPIC -I" .. tmp .. "/src " .. link_flags(parser_dir .. "/norg_meta.so") .. " " .. tmp .. "/src/parser.c 2>&1"
-    )
-    vim.fn.delete(tmp, "rf")
-
-    if vim.v.shell_error ~= 0 then
-      vim.notify("Failed to build norg_meta parser:\n" .. out, vim.log.levels.ERROR)
-    else
-      vim.notify("norg_meta parser built successfully")
-    end
+    build("https://github.com/nvim-neorg/tree-sitter-norg", "norg", true)
+    build("https://github.com/nvim-neorg/tree-sitter-norg-meta", "norg_meta", false)
   end,
   config = function()
     local function dropbox_path()
