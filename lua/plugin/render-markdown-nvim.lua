@@ -7,27 +7,18 @@ return {
   ft = { "markdown", "vimwiki" },
   config = function()
     require("render-markdown").setup({
-      enabled = true,
-      render_modes = { "n" },
-      max_file_size = 10.0,
       completions = {
         lsp = { enabled = true },
       },
-      -- snacks.image renders mermaid blocks; leave them untouched
+      -- snacks.image renders mermaid blocks and math; leave them untouched
       code = { disable = { "mermaid" } },
+      latex = { enabled = false },
     })
   end,
   keys = {
     {
-      "<leader>mr",
-      "<cmd>RenderMarkdown<cr>",
-      mode = { "n" },
-      desc = "Enable render markdown",
-    },
-    {
       "<leader>mt",
       "<cmd>RenderMarkdown toggle<cr>",
-      mode = { "n" },
       desc = "Toggle render markdown",
     },
   },
