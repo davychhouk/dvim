@@ -13,6 +13,8 @@ return {
       completions = {
         lsp = { enabled = true },
       },
+      -- snacks.image renders mermaid blocks; leave them untouched
+      code = { disable = { "mermaid" } },
     })
   end,
   keys = {
