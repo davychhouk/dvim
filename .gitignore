@@ -5,3 +5,5 @@ docs/
 
 .envrc
 .direnv/
+
+nvim.log
