@@ -47,7 +47,6 @@ return {
         "oxlint",
         "prettierd",
         "ruff",
-        "rust-analyzer",
         "selene",
         "shellcheck",
         "shfmt",
