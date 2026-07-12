@@ -43,7 +43,7 @@ On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mas
 | Node.js                                             | prettierd / ts_ls and other JS-based mason tools                |
 | [uv](https://github.com/astral-sh/uv)               | Python DAP (`dap-python` launches debugpy via `uv run`)         |
 | [Codex CLI](https://github.com/openai/codex)        | Codex.nvim terminal integration                                 |
-| Rust toolchain                                      | rustaceanvim local builds                                       |
+| Rust toolchain                                      | `rust-analyzer`, `rustfmt`, `cargo`, and related Rust tooling   |
 | tmux                                                | vim-tmux-navigator pane switching                               |
 | [nixd](https://github.com/nix-community/nixd)       | Nix LSP (enabled in lspconfig, not in mason — install manually) |
 | [codebook-lsp](https://github.com/blopker/codebook) | Spell-check LSP toggled by `<leader>cb` (manual install)        |
@@ -52,12 +52,12 @@ On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mas
 
 LSP servers, formatters, linters, and DAP adapters install on first launch — no manual setup needed.
 
-| Type       | Tools                                                                                                                              |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| LSP        | `azure_pipelines_ls`, `bashls`, `cssls`, `gopls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls` |
-| Formatters | `gofumpt`, `goimports`, `oxfmt`, `prettierd`, `ruff`, `shfmt`, `stylua`, `yamlfmt` (rustfmt via toolchain)                         |
-| Linters    | `oxlint`, `ruff`, `selene`, `shellcheck`, `statix`                                                                                 |
-| DAP        | `codelldb`, `delve` (rust-analyzer via mason-tool-installer)                                                                       |
+| Type       | Tools                                                                                                                                     |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| LSP        | `azure_pipelines_ls`, `bashls`, `cssls`, `gopls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls`, `zls` |
+| Formatters | `gofumpt`, `goimports`, `oxfmt`, `prettierd`, `ruff`, `shfmt`, `stylua`, `yamlfmt` (rustfmt via toolchain)                                |
+| Linters    | `oxlint`, `ruff`, `selene`, `shellcheck`, `statix`                                                                                        |
+| DAP        | `codelldb`, `delve`                                                                                                                       |
 
 ## Structure
 
@@ -207,15 +207,15 @@ Rust tests run through rustaceanvim's built-in neotest adapter (no extra plugin)
 
 Custom ASCII "DVIM" banner with a quick-action menu:
 
-| Key | Action       |
-| --- | ------------ |
-| `r` | Recent files |
-| `f` | Find file    |
-| `e` | Explorer     |
-| `G` | Lazygit      |
-| `l` | Lazy         |
-| `m` | Mason        |
-| `q` | Quit         |
+| Key | Action      |
+| --- | ----------- |
+| `c` | Claude Code |
+| `x` | Codex       |
+| `f` | Find file   |
+| `e` | Explorer    |
+| `l` | Lazy        |
+| `m` | Mason       |
+| `q` | Quit        |
 
 Auto-reopens when the last real buffer is closed.
 
@@ -368,30 +368,32 @@ Auto-reopens when the last real buffer is closed.
 ### LSP
 
 **Navigation (via snacks picker):**
-| Key | Action |
-|-----|--------|
-| `gd` | Go to definition |
-| `gD` | Go to declaration |
-| `gR` | References |
-| `gI` | Go to implementation |
-| `gy` | Go to type definition |
-| `<C-o>` | Jump back (older position in jumplist) |
-| `<C-i>` | Jump forward (newer position in jumplist) |
-| `g;` / `g,` | Jump older / newer in change list |
+
+| Key                    | Action                                           |
+| ---------------------- | ------------------------------------------------ |
+| `gd`                   | Go to definition                                 |
+| `gD`                   | Go to declaration                                |
+| `gR`                   | References                                       |
+| `gI`                   | Go to implementation                             |
+| `gy`                   | Go to type definition                            |
+| `<C-o>`                | Jump back (older position in jumplist)           |
+| `<C-i>`                | Jump forward (newer position in jumplist)        |
+| `g;` / `g,`            | Jump older / newer in change list                |
 | <code>``</code> / `''` | Jump to position before last jump (exact / line) |
 
 **Buffer-local (on LSP attach):**
-| Key | Action |
-|-----|--------|
-| `K` | Hover documentation |
-| `<leader>ca` | Code action (normal + visual) |
+
+| Key          | Action                                  |
+| ------------ | --------------------------------------- |
+| `K`          | Hover documentation                     |
+| `<leader>ca` | Code action (normal + visual)           |
 | `<leader>cf` | Format buffer / range (normal + visual) |
-| `<leader>cL` | Run code lens |
-| `<leader>rn` | Rename symbol |
-| `<leader>di` | Show line diagnostics (float) |
-| `[d` / `]d` | Prev / next diagnostic |
-| `<leader>rs` | Restart LSP |
-| `<leader>cb` | Toggle codebook LSP (spell checker) |
+| `<leader>cL` | Run code lens                           |
+| `<leader>rn` | Rename symbol                           |
+| `<leader>di` | Show line diagnostics (float)           |
+| `[d` / `]d`  | Prev / next diagnostic                  |
+| `<leader>rs` | Restart LSP                             |
+| `<leader>cb` | Toggle codebook LSP (spell checker)     |
 
 ### Diagnostics & Trouble
 
@@ -446,7 +448,7 @@ Auto-reopens when the last real buffer is closed.
 | `<leader>l`           | Open Lazy                    |
 | `<leader>ms`          | Open Mason                   |
 | `<leader>un`          | Dismiss notifications        |
-| `<leader>nt`          | Notification history         |
+| `<leader>uN`          | Notification history         |
 | `]]` / `[[`           | Jump between word references |
 | `<leader>cR`          | Rename file                  |
 | `<leader>wr`          | Restore session              |
@@ -488,16 +490,26 @@ Auto-reopens when the last real buffer is closed.
 ### AI
 
 **Claude Code**
-| Key | Action |
-|-----|--------|
-| `<leader>ccc` | Toggle Claude |
-| `<leader>ccC` | Continue Claude |
-| `<leader>ccr` | Resume Claude |
-| `<leader>ccf` | Focus Claude |
-| `<leader>ccb` | Add current buffer |
+
+| Key           | Action                            |
+| ------------- | --------------------------------- |
+| `<leader>ccc` | Toggle Claude                     |
+| `<leader>ccC` | Continue Claude                   |
+| `<leader>ccr` | Resume Claude                     |
+| `<leader>ccf` | Focus Claude                      |
+| `<leader>ccb` | Add current buffer                |
 | `<leader>ccs` | Send selection to Claude (visual) |
-| `<leader>cca` | Accept diff |
-| `<leader>ccd` | Deny diff |
+| `<leader>cca` | Accept diff                       |
+| `<leader>ccd` | Deny diff                         |
+| `<leader>cci` | Ignore all diffs                  |
+| `<leader>ccm` | Select model                      |
+| `<leader>cct` | Send text to Claude (visual)      |
+
+**Codex**
+
+| Key          | Action       |
+| ------------ | ------------ |
+| `<leader>cx` | Toggle Codex |
 
 ### Neorg (`.norg` files)
 
