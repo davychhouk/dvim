@@ -3,6 +3,8 @@ return {
   dependencies = {
     "L3MON4D3/LuaSnip",
     "rafamadriz/friendly-snippets",
+    "disrupted/blink-cmp-conventional-commits",
+    "ribru17/blink-cmp-spell",
   },
   version = "1.*",
   event = "InsertEnter",
@@ -10,7 +12,6 @@ return {
     return {
       appearance = {
         nerd_font_variant = "mono",
-        use_nvim_cmp_as_default = true,
       },
       completion = {
         list = {
@@ -41,6 +42,8 @@ return {
           "path",
           "snippets",
           "buffer",
+          "spell",
+          "conventional_commits",
         },
         per_filetype = {
           lua = { inherit_defaults = true, "lazydev" },
@@ -59,6 +62,18 @@ return {
                 end, vim.api.nvim_list_bufs())
               end,
             },
+          },
+          conventional_commits = {
+            name = "Conventional Commits",
+            module = "blink-cmp-conventional-commits",
+            enabled = function()
+              return vim.bo.filetype == "gitcommit"
+            end,
+          },
+          spell = {
+            name = "Spell",
+            module = "blink-cmp-spell",
+            opts = { use_cmp_spell_sorting = true },
           },
         },
       },
