@@ -9,6 +9,7 @@ return {
     "MunifTanjim/nui.nvim",
     "pysan3/pathlib.nvim",
     "nvim-nio/nvim-nio",
+    "benlubas/neorg-interim-ls",
   },
   build = function()
     local parser_dir = vim.fn.stdpath("data") .. "/site/parser"
@@ -83,6 +84,8 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "norg",
       callback = function()
+        vim.wo.conceallevel = 3
+        vim.wo.concealcursor = "nc"
         local map = function(key, plug, desc)
           vim.keymap.set("n", key, plug, { buffer = true, desc = desc })
         end
@@ -105,11 +108,63 @@ return {
 
     vim.g.neorg_workspace = dropbox_path() .. "/neorg"
 
+    -- Journal entries get a dated title + 3-bullet template. neorg pre-creates
+    -- empty journal files, so trigger on any empty journal buffer (not just
+    -- BufNewFile). Static template.norg can't do dynamic dates, so build here.
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "norg",
+      callback = function(args)
+        -- Only dated entries (nested strategy: journal/YYYY/MM/DD.norg). This
+        -- excludes support files like journal/index.norg and the TOC.
+        local y, m, d = vim.api.nvim_buf_get_name(args.buf):match("/journal/(%d%d%d%d)/(%d%d)/(%d%d)%.norg$")
+        if not y then
+          return
+        end
+        local lines = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
+        if #lines > 1 or lines[1] ~= "" then
+          return -- non-empty: don't clobber
+        end
+        -- Date from the path, not wall clock: journal yesterday/tomorrow/<date>
+        -- open a non-today entry.
+        local ts = os.time({
+          year = tonumber(y) --[[@as integer]],
+          month = tonumber(m) --[[@as integer]],
+          day = tonumber(d) --[[@as integer]],
+        })
+        vim.api.nvim_buf_set_lines(args.buf, 0, -1, false, {
+          "* " .. os.date("%A, %d %B %Y", ts),
+          "",
+          "** What happened:",
+          "",
+          "",
+          "** What matters today:",
+          "",
+          "",
+          "** Next tiny step:",
+          "",
+          "",
+        })
+      end,
+    })
+
     require("neorg").setup({
       load = {
         ["core.defaults"] = {},
         ["core.keybinds"] = { config = { default_keybinds = false } },
         ["core.concealer"] = {},
+        ["core.export"] = {},
+        ["core.export.markdown"] = { config = { extensions = "all" } },
+        ["core.ui.calendar"] = {},
+        -- interim-ls: LSP for completion (links, @tags, TODO) + code actions.
+        -- Feeds blink automatically as a standard LSP server.
+        ["core.completion"] = {
+          config = { engine = { module_name = "external.lsp-completion" } },
+        },
+        ["external.interim-ls"] = {
+          config = {
+            completion_provider = { enable = true, documentation = true },
+          },
+        },
         ["core.dirman"] = {
           config = {
             workspaces = { notes = vim.g.neorg_workspace },
@@ -117,7 +172,7 @@ return {
           },
         },
         ["core.journal"] = {
-          config = { workspace = "notes" },
+          config = { workspace = "notes", use_template = false },
         },
         ["core.summary"] = {},
       },
@@ -126,6 +181,7 @@ return {
   keys = {
     { "<leader>ni", "<cmd>Neorg index<cr>", desc = "Neorg index" },
     { "<leader>nj", "<cmd>Neorg journal today<cr>", desc = "Neorg journal today" },
+    { "<leader>nt", "<cmd>Neorg journal toc open<cr>", desc = "Neorg journal TOC" },
     { "<leader>nn", "<cmd>Neorg new<cr>", desc = "Neorg new note" },
     {
       "<leader>nf",
