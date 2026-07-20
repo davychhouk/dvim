@@ -8,6 +8,31 @@ return {
     local ts = require("nvim-treesitter")
     ts.setup({ auto_install = false })
 
+    -- Register grammars not in the registry. Must run on User TSUpdate:
+    -- install() reloads the parsers module, wiping any earlier assignment.
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "TSUpdate",
+      callback = function()
+        local parsers = require("nvim-treesitter.parsers")
+        parsers.tmux = {
+          ---@diagnostic disable-next-line: missing-fields
+          install_info = {
+            url = "https://github.com/Freed-Wu/tree-sitter-tmux",
+            queries = "queries",
+          },
+          tier = 3,
+        }
+        parsers.ghostty = {
+          ---@diagnostic disable-next-line: missing-fields
+          install_info = {
+            url = "https://github.com/bezhermoso/tree-sitter-ghostty",
+            queries = "queries/ghostty",
+          },
+          tier = 3,
+        }
+      end,
+    })
+
     -- Install parsers async so BufReadPre isn't blocked
     vim.schedule(function()
       ts.install({
@@ -16,6 +41,7 @@ return {
         "cpp",
         "css",
         "fish",
+        "ghostty",
         "gitignore",
         "go",
         "graphql",

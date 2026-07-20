@@ -80,7 +80,8 @@ return {
           if not vim.api.nvim_win_is_valid(win) then
             return
           end
-          vim.fn.jobresize(chan, vim.api.nvim_win_get_width(win), vim.api.nvim_win_get_height(win))
+          -- best-effort: chan may have closed since WinEnter (E900 on dead channel)
+          pcall(vim.fn.jobresize, chan, vim.api.nvim_win_get_width(win), vim.api.nvim_win_get_height(win))
         end)
       end,
     })
