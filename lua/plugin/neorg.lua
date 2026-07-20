@@ -134,13 +134,15 @@ return {
         vim.api.nvim_buf_set_lines(args.buf, 0, -1, false, {
           "* " .. os.date("%A, %d %B %Y", ts),
           "",
-          "** What happened:",
+          "** What happened",
           "",
           "",
-          "** What matters today:",
+          "",
+          "** What matters today",
           "",
           "",
-          "** Next tiny step:",
+          "",
+          "** Next tiny step",
           "",
           "",
         })
