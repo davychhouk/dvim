@@ -141,10 +141,11 @@ snippets/                 filetype snippet files (LuaSnip)
 
 ### Treesitter
 
-| Plugin                                                                   | Description                          |
-| ------------------------------------------------------------------------ | ------------------------------------ |
-| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)    | Syntax highlighting and text objects |
-| [tree-sitter-ghostty](https://github.com/bezhermoso/tree-sitter-ghostty) | Ghostty config grammar               |
+| Plugin                                                                | Description                          |
+| --------------------------------------------------------------------- | ------------------------------------ |
+| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Syntax highlighting and text objects |
+
+The [ghostty](https://github.com/bezhermoso/tree-sitter-ghostty) and [tmux](https://github.com/Freed-Wu/tree-sitter-tmux) config grammars aren't in the parser registry, so they're registered as custom parsers and built on `:TSUpdate` — no separate plugin.
 
 ### Testing
 

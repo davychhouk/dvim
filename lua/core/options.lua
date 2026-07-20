@@ -70,6 +70,7 @@ vim.filetype.add({
     [".gitlab-ci.yml"] = "yaml.gitlab",
   },
   pattern = {
+    [".*/tmux/.*%.conf"] = "tmux",
     ["docker%-compose[^/]*.ya?ml"] = "yaml.docker-compose",
     ["compose[^/]*.ya?ml"] = "yaml.docker-compose",
     [".*/templates/.*%.ya?ml"] = "yaml.helm-values",
