@@ -59,6 +59,11 @@ return {
       },
     })
 
+    -- kdl-lsp isn't in mason: cargo install --git https://github.com/kdl-org/kdl-rs kdl-lsp
+    lsp.config("kdl_lsp", {
+      capabilities = capabilities,
+    })
+
     lsp.config("nixd", {
       capabilities = capabilities,
       cmd = { "nixd" },
@@ -129,7 +134,7 @@ return {
     })
 
     -- Enable individual language servers
-    lsp.enable({ "azure_pipelines_ls", "cssls", "lua_ls", "nixd", "oxlint", "tailwindcss", "yamlls" })
+    lsp.enable({ "azure_pipelines_ls", "cssls", "kdl_lsp", "lua_ls", "nixd", "oxlint", "tailwindcss", "yamlls" })
 
     -- Toggle codebook LSP
     vim.keymap.set("n", "<leader>cb", function()

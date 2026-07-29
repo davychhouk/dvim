@@ -51,6 +51,7 @@ return {
         "javascript",
         "json",
         "json5",
+        "kdl",
         "latex",
         "lua",
         "markdown",
