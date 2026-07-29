@@ -43,6 +43,7 @@ return {
       ensure_installed = {
         "gofumpt",
         "goimports",
+        "kdlfmt",
         "oxfmt",
         "oxlint",
         "prettierd",

@@ -47,6 +47,7 @@ On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mas
 | tmux                                                | vim-tmux-navigator pane switching                               |
 | [nixd](https://github.com/nix-community/nixd)       | Nix LSP (enabled in lspconfig, not in mason — install manually) |
 | [codebook-lsp](https://github.com/blopker/codebook) | Spell-check LSP toggled by `<leader>cb` (manual install)        |
+| [kdl-lsp](https://github.com/kdl-org/kdl-rs)        | KDL LSP (enabled in lspconfig, not in mason — install manually) |
 
 ### Auto-installed via Mason
 
@@ -55,7 +56,7 @@ LSP servers, formatters, linters, and DAP adapters install on first launch — n
 | Type       | Tools                                                                                                                                     |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | LSP        | `azure_pipelines_ls`, `bashls`, `cssls`, `gopls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls`, `zls` |
-| Formatters | `gofumpt`, `goimports`, `oxfmt`, `prettierd`, `ruff`, `shfmt`, `stylua`, `yamlfmt` (rustfmt via toolchain)                                |
+| Formatters | `gofumpt`, `goimports`, `kdlfmt`, `oxfmt`, `prettierd`, `ruff`, `shfmt`, `stylua`, `yamlfmt` (rustfmt via toolchain)                      |
 | Linters    | `oxlint`, `ruff`, `selene`, `shellcheck`, `statix`                                                                                        |
 | DAP        | `codelldb`, `delve`                                                                                                                       |
 

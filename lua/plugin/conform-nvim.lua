@@ -22,6 +22,7 @@ return {
         json = { "oxfmt", "prettierd", stop_after_first = true },
         jsonc = { "oxfmt", "prettierd", stop_after_first = true },
         go = { "goimports", "gofumpt" },
+        kdl = { "kdlfmt" },
         lua = { "stylua" },
         markdown = { "oxfmt", "prettierd", stop_after_first = true },
         python = { "ruff_format" },
