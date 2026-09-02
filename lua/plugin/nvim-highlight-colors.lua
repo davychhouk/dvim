@@ -1,6 +1,6 @@
 return {
   "davychhouk/nvim-highlight-colors",
-  event = { "BufReadPre", "BufNewFile" },
+  event = { "BufReadPost", "BufNewFile" },
   config = function()
     require("nvim-highlight-colors").setup({
       render = "virtual",
