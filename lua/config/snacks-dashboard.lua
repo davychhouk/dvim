@@ -66,11 +66,10 @@ vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
         return
       end
       -- Look for any remaining "real" buffer (named or modified).
-      -- If found, user still has work open — don't open dashboard.
+      -- Include args.buf: Neovim may have reused its number for a new file.
       for _, b in ipairs(vim.api.nvim_list_bufs()) do
         if
-          b ~= args.buf
-          and vim.api.nvim_buf_is_valid(b)
+          vim.api.nvim_buf_is_valid(b)
           and vim.bo[b].buflisted
           and (vim.api.nvim_buf_get_name(b) ~= "" or vim.bo[b].modified)
         then
