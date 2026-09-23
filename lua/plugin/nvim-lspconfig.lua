@@ -98,20 +98,28 @@ return {
       },
     })
 
-    -- azure_pipelines_ls owns Azure Pipelines schema (filetype yaml, started on root marker)
-    -- workspace_required: only start when an azure-pipelines.yml root marker exists, so it
-    -- doesn't attach to unrelated yaml (e.g. sops) with rootUri=null and crash on initialize
+    -- filetypes gate keeps this off unrelated yaml; the server requires a workspace URI.
     lsp.config("azure_pipelines_ls", {
       capabilities = capabilities,
+      filetypes = { "yaml.azure-pipelines" },
+      root_markers = {
+        {
+          "azure-pipelines.yml",
+          "azure-pipelines.yaml",
+          ".azure-pipelines.yml",
+          ".azure-pipelines.yaml",
+          "azure-pipelines",
+          ".azure-pipelines",
+        },
+        ".git",
+      },
       workspace_required = true,
       settings = {
         yaml = {
           schemas = {
             ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
-              "azure-pipelines.yml",
-              ".azure-pipelines.yml",
-              "azure-pipelines/*.yml",
-              "**/azure-pipelines*.yml",
+              "**/*.yml",
+              "**/*.yaml",
             },
           },
         },

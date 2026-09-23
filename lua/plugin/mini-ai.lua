@@ -2,6 +2,9 @@ return {
   "nvim-mini/mini.ai",
   version = false,
   event = "BufReadPost",
+  dependencies = {
+    { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
+  },
   config = function()
     local ai = require("mini.ai")
     ai.setup({

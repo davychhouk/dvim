@@ -71,12 +71,11 @@ vim.filetype.add({
   },
   pattern = {
     [".*/tmux/.*%.conf"] = "tmux",
-    ["docker%-compose[^/]*.ya?ml"] = "yaml.docker-compose",
-    ["compose[^/]*.ya?ml"] = "yaml.docker-compose",
+    ["docker%-compose.*%.ya?ml"] = "yaml.docker-compose",
+    ["compose.*%.ya?ml"] = "yaml.docker-compose",
     [".*/templates/.*%.ya?ml"] = "yaml.helm-values",
     ["values%.ya?ml"] = "yaml.helm-values",
-    ["azure%-pipelines%.ya?ml"] = "yaml.azure-pipelines",
-    ["%.azure%-pipelines%.ya?ml"] = "yaml.azure-pipelines",
+    ["%.?azure%-pipelines.*%.ya?ml"] = "yaml.azure-pipelines",
     [".*/%.?azure%-pipelines/.*%.ya?ml"] = "yaml.azure-pipelines",
   },
 })

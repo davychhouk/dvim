@@ -27,9 +27,11 @@ return {
     local dapui = require("dapui")
     local icons = require("util.icons").dap
 
-    -- Install dap tools
+    -- Install and configure dap tools
     require("mason-nvim-dap").setup({
       automatic_installation = true,
+      -- default handlers register mason adapters; python stays with dap-python (uv launcher)
+      handlers = { python = function() end },
       ensure_installed = {
         "codelldb",
         "delve",
