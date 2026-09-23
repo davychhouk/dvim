@@ -13,7 +13,9 @@ return {
       return function()
         if vim.bo.filetype == "python" then
           local col = vim.fn.col(".")
-          if vim.fn.getline("."):sub(col - 2, col - 1) == quote:rep(2) then
+          local line = vim.fn.getline(".")
+          -- Let mini.pairs skip an existing closing quote before expanding.
+          if line:sub(col, col) ~= quote and line:sub(col - 2, col - 1) == quote:rep(2) then
             return quote:rep(4) .. left3
           end
         end
