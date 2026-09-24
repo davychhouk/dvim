@@ -70,7 +70,19 @@ return {
     ---@diagnostic disable-next-line: missing-fields
     require("neotest").setup({
       adapters = {
-        require("neotest-golang"),
+        require("neotest-golang")({
+          dap_mode = "manual",
+          -- Fresh config: neotest-golang appends the selected test filter.
+          dap_manual_config = function()
+            return {
+              name = "Debug Go tests",
+              type = "delve",
+              request = "launch",
+              mode = "test",
+              outputMode = "remote",
+            }
+          end,
+        }),
         require("neotest-python")({ dap = { justMyCode = false } }),
         require("neotest-vitest"),
         require("rustaceanvim.neotest"),
