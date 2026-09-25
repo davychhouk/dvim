@@ -1,7 +1,7 @@
 return {
   "nvim-mini/mini.surround",
   version = false,
-  event = "BufReadPost",
+  event = { "BufReadPost", "BufNewFile" },
   config = function()
     require("mini.surround").setup({
       search_method = "cover_or_next",

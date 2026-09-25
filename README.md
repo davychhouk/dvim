@@ -58,7 +58,7 @@ LSP servers, formatters, linters, and DAP adapters install on first launch — n
 | LSP        | `azure_pipelines_ls`, `bashls`, `cssls`, `gopls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls`, `zls` |
 | Formatters | `gofumpt`, `goimports`, `kdlfmt`, `oxfmt`, `prettierd`, `ruff`, `shfmt`, `stylua`, `yamlfmt` (rustfmt via toolchain)                      |
 | Linters    | `oxlint`, `ruff`, `selene`, `shellcheck`, `statix`                                                                                        |
-| DAP        | `codelldb`, `delve`                                                                                                                       |
+| DAP        | `codelldb`, `delve`, `js-debug-adapter`                                                                                                   |
 
 ## Structure
 

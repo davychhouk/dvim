@@ -31,10 +31,24 @@ return {
     require("mason-nvim-dap").setup({
       automatic_installation = true,
       -- default handlers register mason adapters; python stays with dap-python (uv launcher)
-      handlers = { python = function() end },
+      handlers = {
+        python = function() end,
+        js = function()
+          dap.adapters["pwa-node"] = {
+            type = "server",
+            host = "127.0.0.1",
+            port = "${port}",
+            executable = {
+              command = "js-debug-adapter",
+              args = { "${port}", "127.0.0.1" },
+            },
+          }
+        end,
+      },
       ensure_installed = {
         "codelldb",
         "delve",
+        "js",
       },
     })
 

@@ -1,7 +1,7 @@
 return {
   "nvim-mini/mini.ai",
   version = false,
-  event = "BufReadPost",
+  event = { "BufReadPost", "BufNewFile" },
   dependencies = {
     { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
   },
