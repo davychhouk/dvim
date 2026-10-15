@@ -83,17 +83,24 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       callback = function(ev)
         -- Highlighting
-        local ts_ok = pcall(vim.treesitter.start)
+        local ts_ok = pcall(vim.treesitter.start, ev.buf)
 
         -- Preserve filetype indentation when Treesitter has no indent support.
         local parser = ts_ok and vim.treesitter.get_parser(ev.buf)
-        if parser and vim.treesitter.query.get(parser:lang(), "indents") then
-          vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        local ok, indents = pcall(function()
+          return parser and vim.treesitter.query.get(parser:lang(), "indents")
+        end)
+        local ts_indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        if ok and indents then
+          vim.bo[ev.buf].indentexpr = ts_indentexpr
+        elseif vim.bo[ev.buf].indentexpr == ts_indentexpr then
+          -- Drop a stale value left by a previous filetype on this buffer.
+          vim.bo[ev.buf].indentexpr = ""
         end
 
         -- Incremental selection: buffer-local on real files so the global
         -- <CR> doesn't shadow the quickfix-window <CR>.
-        if ts_ok and vim.bo.buftype == "" then
+        if ts_ok and vim.bo[ev.buf].buftype == "" then
           local function map(mode, lhs, rhs, desc)
             vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, remap = true, desc = desc })
           end
