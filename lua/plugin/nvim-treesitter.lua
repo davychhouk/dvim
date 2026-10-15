@@ -2,7 +2,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   branch = "main",
   build = ":TSUpdate",
-  event = { "BufReadPre", "BufNewFile" },
+  lazy = false,
   config = function()
     -- Setup
     local ts = require("nvim-treesitter")
@@ -33,7 +33,6 @@ return {
       end,
     })
 
-    -- Install parsers async so BufReadPre isn't blocked
     vim.schedule(function()
       ts.install({
         "bash",
@@ -83,24 +82,42 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       callback = function(ev)
         -- Highlighting
-        local ts_ok = pcall(vim.treesitter.start)
+        local ts_ok = pcall(vim.treesitter.start, ev.buf)
+        -- Only undo state this autocmd set, never another plugin's highlighter or maps.
+        local b = vim.b[ev.buf]
+        if not ts_ok and b.dvim_ts_hl then
+          vim.treesitter.stop(ev.buf)
+        end
+        b.dvim_ts_hl = ts_ok or nil
 
-        -- Indentation
-        -- local ft = vim.bo.filetype
-        -- if ft ~= "yaml" then
-        --   vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-        -- end
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        -- Preserve filetype indentation when Treesitter has no indent support.
+        local parser = ts_ok and vim.treesitter.get_parser(ev.buf)
+        local ok, indents = pcall(function()
+          return parser and vim.treesitter.query.get(parser:lang(), "indents")
+        end)
+        local ts_indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        if ok and indents then
+          vim.bo[ev.buf].indentexpr = ts_indentexpr
+        elseif vim.bo[ev.buf].indentexpr == ts_indentexpr then
+          -- Drop a stale value left by a previous filetype on this buffer.
+          vim.bo[ev.buf].indentexpr = ""
+        end
 
         -- Incremental selection: buffer-local on real files so the global
         -- <CR> doesn't shadow the quickfix-window <CR>.
-        if ts_ok and vim.bo.buftype == "" then
+        if ts_ok and vim.bo[ev.buf].buftype == "" then
           local function map(mode, lhs, rhs, desc)
             vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, remap = true, desc = desc })
           end
           map("n", "<CR>", "van", "Init node selection")
           map("v", "<CR>", "an", "Expand to parent node")
           map("v", "<BS>", "in", "Shrink to child node")
+          b.dvim_ts_maps = true
+        elseif b.dvim_ts_maps then
+          pcall(vim.keymap.del, "n", "<CR>", { buffer = ev.buf })
+          pcall(vim.keymap.del, "v", "<CR>", { buffer = ev.buf })
+          pcall(vim.keymap.del, "v", "<BS>", { buffer = ev.buf })
+          b.dvim_ts_maps = nil
         end
       end,
     })
