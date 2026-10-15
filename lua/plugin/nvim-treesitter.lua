@@ -2,7 +2,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   branch = "main",
   build = ":TSUpdate",
-  event = { "BufReadPre", "BufNewFile" },
+  lazy = false,
   config = function()
     -- Setup
     local ts = require("nvim-treesitter")
@@ -33,7 +33,7 @@ return {
       end,
     })
 
-    -- Install parsers async so BufReadPre isn't blocked
+    -- Defer parser installation until after startup setup.
     vim.schedule(function()
       ts.install({
         "bash",
@@ -85,12 +85,11 @@ return {
         -- Highlighting
         local ts_ok = pcall(vim.treesitter.start)
 
-        -- Indentation
-        -- local ft = vim.bo.filetype
-        -- if ft ~= "yaml" then
-        --   vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-        -- end
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        -- Preserve filetype indentation when Treesitter has no indent support.
+        local parser = ts_ok and vim.treesitter.get_parser(ev.buf)
+        if parser and vim.treesitter.query.get(parser:lang(), "indents") then
+          vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
 
         -- Incremental selection: buffer-local on real files so the global
         -- <CR> doesn't shadow the quickfix-window <CR>.

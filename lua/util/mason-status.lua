@@ -40,6 +40,7 @@ local function ensure_init()
   vim.defer_fn(function()
     local ok, registry = pcall(require, "mason-registry")
     if ok then
+      registry:on("update:success", refresh)
       registry:on("package:install:success", refresh)
       registry:on("package:uninstall:success", refresh)
     end
