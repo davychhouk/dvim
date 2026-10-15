@@ -33,7 +33,6 @@ return {
       end,
     })
 
-    -- Defer parser installation until after startup setup.
     vim.schedule(function()
       ts.install({
         "bash",
@@ -84,6 +83,10 @@ return {
       callback = function(ev)
         -- Highlighting
         local ts_ok = pcall(vim.treesitter.start, ev.buf)
+        if not ts_ok then
+          -- Detach a highlighter left by a previous filetype on this buffer.
+          vim.treesitter.stop(ev.buf)
+        end
 
         -- Preserve filetype indentation when Treesitter has no indent support.
         local parser = ts_ok and vim.treesitter.get_parser(ev.buf)
@@ -107,6 +110,10 @@ return {
           map("n", "<CR>", "van", "Init node selection")
           map("v", "<CR>", "an", "Expand to parent node")
           map("v", "<BS>", "in", "Shrink to child node")
+        else
+          pcall(vim.keymap.del, "n", "<CR>", { buffer = ev.buf })
+          pcall(vim.keymap.del, "v", "<CR>", { buffer = ev.buf })
+          pcall(vim.keymap.del, "v", "<BS>", { buffer = ev.buf })
         end
       end,
     })
