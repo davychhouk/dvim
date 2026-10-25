@@ -46,6 +46,7 @@ On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mas
 | Rust toolchain                                      | `rust-analyzer`, `rustfmt`, `cargo`, and related Rust tooling   |
 | tmux                                                | vim-tmux-navigator pane switching                               |
 | [nixd](https://github.com/nix-community/nixd)       | Nix LSP (enabled in lspconfig, not in mason — install manually) |
+| [nixfmt](https://github.com/NixOS/nixfmt)           | Nix formatter used by nixd (manual install)                     |
 | [codebook-lsp](https://github.com/blopker/codebook) | Spell-check LSP toggled by `<leader>cb` (manual install)        |
 | [kdl-lsp](https://github.com/kdl-org/kdl-rs)        | KDL LSP (enabled in lspconfig, not in mason — install manually) |
 
@@ -70,7 +71,7 @@ lua/
     options.lua           vim options, filetype registrations, diagnostics config
     mappings.lua          global keymaps
   plugin/                 one file per plugin spec (auto-imported by lazy)
-  config/                 extended configs (snacks sub-modules)
+  config/                 extended configs (snacks sub-modules, blink.cmp menu drawing)
   util/
     icons.lua             icon constants
     mason-status.lua      mason status helpers
@@ -298,6 +299,18 @@ Auto-reopens when the last real buffer is closed.
 | `zM` | Close all folds                             |
 | `zK` | Peek folded lines (falls back to LSP hover) |
 
+### Surround / Align (mini)
+
+| Key           | Action                             |
+| ------------- | ---------------------------------- |
+| `gsa`         | Add surrounding                    |
+| `gsd`         | Delete surrounding                 |
+| `gsr`         | Replace surrounding                |
+| `gsf` / `gsF` | Find surrounding (right / left)    |
+| `gsh`         | Highlight surrounding              |
+| `gsn`         | Update surrounding n lines         |
+| `ga` / `gA`   | Align / align with preview (n + x) |
+
 ### Treesitter Selection (normal buffers)
 
 | Key    | Action                                          |
@@ -315,7 +328,6 @@ Auto-reopens when the last real buffer is closed.
 
 | Key          | Action                 |
 | ------------ | ---------------------- |
-| `<leader>mr` | Enable render-markdown |
 | `<leader>mt` | Toggle render-markdown |
 
 ### Find / Grep
@@ -339,11 +351,24 @@ Auto-reopens when the last real buffer is closed.
 | `<leader>sD`      | Buffer diagnostics           |
 | `<leader>sss`     | LSP symbols                  |
 | `<leader>ssS`     | LSP workspace symbols        |
+| `<leader>ssp`     | Search for plugin spec       |
 | `<leader>sR`      | Resume last picker           |
 | `<leader>su`      | Undo history                 |
 | `<leader>:`       | Command history              |
+| `<leader>sc`      | Command history              |
+| `<leader>sC`      | Commands                     |
+| `<leader>s/`      | Search history               |
 | `<leader>sk`      | Keymaps                      |
 | `<leader>sm`      | Marks                        |
+| `<leader>sj`      | Jumps                        |
+| `<leader>sq`      | Quickfix list                |
+| `<leader>sl`      | Location list                |
+| `<leader>sh`      | Help pages                   |
+| `<leader>sM`      | Man pages                    |
+| `<leader>sa`      | Autocmds                     |
+| `<leader>sH`      | Highlights                   |
+| `<leader>si`      | Icons                        |
+| `<leader>uC`      | Colorschemes                 |
 
 ### Git
 
@@ -390,7 +415,6 @@ Auto-reopens when the last real buffer is closed.
 | `K`          | Hover documentation                     |
 | `<leader>ca` | Code action (normal + visual)           |
 | `<leader>cf` | Format buffer / range (normal + visual) |
-| `<leader>cL` | Run code lens                           |
 | `<leader>rn` | Rename symbol                           |
 | `<leader>di` | Show line diagnostics (float)           |
 | `[d` / `]d`  | Prev / next diagnostic                  |
@@ -519,6 +543,7 @@ Auto-reopens when the last real buffer is closed.
 | -------------------------------------- | ------------------------------------------------------------------------ |
 | `<leader>ni`                           | Open Neorg index                                                         |
 | `<leader>nj`                           | Today's journal entry                                                    |
+| `<leader>nt`                           | Journal table of contents                                                |
 | `<leader>nn`                           | New note                                                                 |
 | `<leader>nf`                           | Find notes (picker)                                                      |
 | `<leader>ng`                           | Grep notes (picker)                                                      |
