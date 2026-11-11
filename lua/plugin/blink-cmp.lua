@@ -7,7 +7,7 @@ return {
     "ribru17/blink-cmp-spell",
   },
   version = "1.*",
-  event = "InsertEnter",
+  event = { "InsertEnter", "CmdlineEnter" },
   opts = function()
     return {
       appearance = {

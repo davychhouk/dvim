@@ -18,7 +18,7 @@ Or as a Nix flake input (consumed by [nixdots](https://github.com/davychhouk/nix
 inputs.dvim.url = "github:davychhouk/dvim";
 ```
 
-On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mason auto-installs LSP servers, formatters, and DAP adapters.
+On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mason auto-installs LSP servers, formatters, and linters; DAP adapters install the first time the debugger loads.
 
 ## Requirements
 
@@ -52,14 +52,16 @@ On first launch, lazy.nvim auto-installs all plugins and treesitter parsers. Mas
 
 ### Auto-installed via Mason
 
-LSP servers, formatters, linters, and DAP adapters install on first launch — no manual setup needed.
+LSP servers, formatters, and linters install on first launch; DAP adapters install the first time the debugger loads — no manual setup needed.
 
-| Type       | Tools                                                                                                                                     |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| LSP        | `azure_pipelines_ls`, `bashls`, `cssls`, `gopls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls`, `zls` |
-| Formatters | `gofumpt`, `goimports`, `kdlfmt`, `oxfmt`, `prettierd`, `ruff`, `shfmt`, `stylua`, `yamlfmt` (rustfmt via toolchain)                      |
-| Linters    | `oxlint`, `ruff`, `selene`, `shellcheck`, `statix`                                                                                        |
-| DAP        | `codelldb`, `delve`, `js-debug-adapter`                                                                                                   |
+| Type       | Tools                                                                                                                                                  |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| LSP        | `azure_pipelines_ls`, `bashls`, `cssls`, `gopls`, `html`, `jsonls`, `lua_ls`, `pyright`, `tailwindcss`, `taplo`, `ts_ls`, `yamlls`, `zls`              |
+| Formatters | `gofumpt`, `goimports`, `kdlfmt`, `oxfmt`, `prettierd`, `ruff`, `shfmt`, `stylua`, `yamlfmt` (`rustfmt`, `zigfmt`, `fish_indent` via their toolchains) |
+| Linters    | `oxlint`, `ruff`, `selene`, `shellcheck`, `statix`                                                                                                     |
+| DAP        | `codelldb`, `delve`, `js-debug-adapter`                                                                                                                |
+
+Every Mason-installed server is enabled automatically, including tools that ship an LSP mode (`ruff`, `oxlint`, `oxfmt`, `stylua`).
 
 ## Structure
 
@@ -101,7 +103,7 @@ snippets/                 filetype snippet files (LuaSnip)
 | ----------------------------------------------------- | --------------------------------------------------------- |
 | [snacks picker](https://github.com/folke/snacks.nvim) | Fuzzy finder for files, buffers, grep, LSP, git, and more |
 | [flash.nvim](https://github.com/folke/flash.nvim)     | Jump and search navigation                                |
-| [nvim-ufo](https://github.com/kevinhwang91/nvim-ufo)  | Folding with LSP/treesitter providers                     |
+| [nvim-ufo](https://github.com/kevinhwang91/nvim-ufo)  | Folding with LSP/indent providers                         |
 
 ### Editing
 
@@ -131,15 +133,16 @@ snippets/                 filetype snippet files (LuaSnip)
 
 ### LSP & Tooling
 
-| Plugin                                                     | Description                                            |
-| ---------------------------------------------------------- | ------------------------------------------------------ |
-| [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | LSP client configs                                     |
-| [mason.nvim](https://github.com/mason-org/mason.nvim)      | LSP, linter, and formatter installer                   |
-| [nvim-lint](https://github.com/mfussenegger/nvim-lint)     | Asynchronous linter runner                             |
-| [lazydev.nvim](https://github.com/folke/lazydev.nvim)      | Lua LSP for Neovim config and plugin development       |
-| [trouble.nvim](https://github.com/folke/trouble.nvim)      | Diagnostics and LSP results list                       |
-| [rustaceanvim](https://github.com/mrcjkb/rustaceanvim)     | Enhanced Rust LSP (rust-analyzer)                      |
-| [nvim-dap](https://github.com/mfussenegger/nvim-dap)       | Debug adapter protocol client with UI and virtual text |
+| Plugin                                                      | Description                                            |
+| ----------------------------------------------------------- | ------------------------------------------------------ |
+| [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)  | LSP client configs                                     |
+| [mason.nvim](https://github.com/mason-org/mason.nvim)       | LSP, linter, and formatter installer                   |
+| [nvim-lint](https://github.com/mfussenegger/nvim-lint)      | Asynchronous linter runner                             |
+| [lazydev.nvim](https://github.com/folke/lazydev.nvim)       | Lua LSP for Neovim config and plugin development       |
+| [schemastore.nvim](https://github.com/b0o/schemastore.nvim) | SchemaStore catalog for jsonls                         |
+| [trouble.nvim](https://github.com/folke/trouble.nvim)       | Diagnostics and LSP results list                       |
+| [rustaceanvim](https://github.com/mrcjkb/rustaceanvim)      | Enhanced Rust LSP (rust-analyzer)                      |
+| [nvim-dap](https://github.com/mfussenegger/nvim-dap)        | Debug adapter protocol client with UI and virtual text |
 
 ### Treesitter
 
@@ -224,20 +227,22 @@ Auto-reopens when the last real buffer is closed.
 
 ### Toggles
 
-| Key          | Toggle                |
-| ------------ | --------------------- |
-| `<leader>us` | Spelling              |
-| `<leader>uw` | Line wrap             |
-| `<leader>ul` | Line numbers          |
-| `<leader>uL` | Relative line numbers |
-| `<leader>ud` | Diagnostics           |
-| `<leader>uT` | Treesitter            |
-| `<leader>uh` | Inlay hints           |
-| `<leader>ug` | Indent guides         |
-| `<leader>uD` | Dim out-of-scope code |
-| `<leader>uz` | Zen mode              |
-| `<leader>uc` | Conceallevel          |
-| `<leader>ub` | Dark background       |
+| Key          | Toggle                          |
+| ------------ | ------------------------------- |
+| `<leader>us` | Spelling                        |
+| `<leader>uw` | Line wrap                       |
+| `<leader>ul` | Line numbers                    |
+| `<leader>uL` | Relative line numbers           |
+| `<leader>ud` | Diagnostics                     |
+| `<leader>uT` | Treesitter                      |
+| `<leader>uh` | Inlay hints                     |
+| `<leader>ug` | Indent guides                   |
+| `<leader>uD` | Dim out-of-scope code           |
+| `<leader>uz` | Zen mode                        |
+| `<leader>uc` | Conceallevel                    |
+| `<leader>ub` | Dark background                 |
+| `<leader>uf` | Format on save (global)         |
+| `<leader>uF` | Format on save (current buffer) |
 
 ## Keymaps
 
@@ -358,6 +363,7 @@ Auto-reopens when the last real buffer is closed.
 | `<leader>sc`      | Command history              |
 | `<leader>sC`      | Commands                     |
 | `<leader>s/`      | Search history               |
+| `<leader>s"`      | Registers                    |
 | `<leader>sk`      | Keymaps                      |
 | `<leader>sm`      | Marks                        |
 | `<leader>sj`      | Jumps                        |
@@ -372,25 +378,26 @@ Auto-reopens when the last real buffer is closed.
 
 ### Git
 
-| Key           | Action                       |
-| ------------- | ---------------------------- |
-| `<leader>gg`  | Lazygit                      |
-| `<leader>gs`  | Git status                   |
-| `<leader>gb`  | Git branches                 |
-| `<leader>gl`  | Git log                      |
-| `<leader>gL`  | Git log line                 |
-| `<leader>gd`  | Git diff hunks               |
-| `<leader>gS`  | Git stash                    |
-| `<leader>gf`  | Git log for file             |
-| `<leader>gB`  | Git browse (open in browser) |
-| `<leader>ghs` | Stage hunk                   |
-| `<leader>ghr` | Reset hunk                   |
-| `<leader>ghS` | Stage buffer                 |
-| `<leader>ghR` | Reset buffer                 |
-| `<leader>ghp` | Preview hunk                 |
-| `<leader>ghb` | Blame line                   |
-| `<leader>ghd` | Toggle diff this             |
-| `]c` / `[c`   | Next / prev hunk             |
+| Key           | Action                                       |
+| ------------- | -------------------------------------------- |
+| `<leader>gg`  | Lazygit                                      |
+| `<leader>gs`  | Git status                                   |
+| `<leader>gb`  | Git branches                                 |
+| `<leader>gl`  | Git log                                      |
+| `<leader>gL`  | Git log line                                 |
+| `<leader>gd`  | Git diff hunks                               |
+| `<leader>gS`  | Git stash                                    |
+| `<leader>gf`  | Git log for file                             |
+| `<leader>gB`  | Git browse (open in browser)                 |
+| `<leader>ghs` | Stage hunk                                   |
+| `<leader>ghr` | Reset hunk                                   |
+| `<leader>ghS` | Stage buffer                                 |
+| `<leader>ghR` | Reset buffer                                 |
+| `<leader>ghp` | Preview hunk                                 |
+| `<leader>ghb` | Blame line                                   |
+| `<leader>ghd` | Toggle diff this                             |
+| `]c` / `[c`   | Next / prev hunk                             |
+| `ih`          | Hunk text object (operator-pending + visual) |
 
 ### LSP
 
@@ -408,7 +415,7 @@ Auto-reopens when the last real buffer is closed.
 | `g;` / `g,`            | Jump older / newer in change list                |
 | <code>``</code> / `''` | Jump to position before last jump (exact / line) |
 
-**Buffer-local (on LSP attach):**
+**Actions:**
 
 | Key          | Action                                  |
 | ------------ | --------------------------------------- |
@@ -420,6 +427,8 @@ Auto-reopens when the last real buffer is closed.
 | `[d` / `]d`  | Prev / next diagnostic                  |
 | `<leader>rs` | Restart LSP                             |
 | `<leader>cb` | Toggle codebook LSP (spell checker)     |
+
+`K` and `[d` / `]d` are Neovim built-ins. `<leader>ca`, `<leader>rn`, and `<leader>rs` are buffer-local, set on LSP attach; the rest are global.
 
 ### Diagnostics & Trouble
 
@@ -434,16 +443,18 @@ Auto-reopens when the last real buffer is closed.
 
 ### Debug (DAP)
 
-| Key           | Action                     |
-| ------------- | -------------------------- |
-| `<leader>dc`  | Start / continue           |
-| `<leader>dsi` | Step into                  |
-| `<leader>dso` | Step over                  |
-| `<leader>dsu` | Step out                   |
-| `<leader>db`  | Toggle breakpoint          |
-| `<leader>dB`  | Set conditional breakpoint |
-| `<leader>dut` | Toggle DAP UI              |
-| `<leader>dl`  | Run last                   |
+| Key           | Action                                          |
+| ------------- | ----------------------------------------------- |
+| `<leader>dc`  | Start / continue                                |
+| `<leader>dsi` | Step into                                       |
+| `<leader>dso` | Step over                                       |
+| `<leader>dsu` | Step out                                        |
+| `<leader>db`  | Toggle breakpoint                               |
+| `<leader>dB`  | Set conditional breakpoint                      |
+| `<leader>dut` | Toggle DAP UI                                   |
+| `<leader>dl`  | Run last                                        |
+| `<leader>dt`  | Terminate session                               |
+| `<leader>de`  | Eval under cursor / selection (normal + visual) |
 
 ### Testing (neotest)
 

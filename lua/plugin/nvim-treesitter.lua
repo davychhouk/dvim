@@ -4,9 +4,7 @@ return {
   build = ":TSUpdate",
   lazy = false,
   config = function()
-    -- Setup
     local ts = require("nvim-treesitter")
-    ts.setup({ auto_install = false })
     local grp = vim.api.nvim_create_augroup("nvim_treesitter", { clear = true })
 
     -- Register grammars not in the registry. Must run on User TSUpdate:
@@ -41,20 +39,27 @@ return {
         "c",
         "cpp",
         "css",
+        "diff",
+        "dockerfile",
         "fish",
         "ghostty",
+        "git_rebase",
+        "gitcommit",
         "gitignore",
         "go",
+        "gomod",
         "graphql",
         "html",
         "http",
         "hyprlang",
         "javascript",
+        "jsdoc",
         "json",
         "json5",
         "kdl",
         "latex",
         "lua",
+        "luadoc",
         "markdown",
         "markdown_inline",
         "nix",

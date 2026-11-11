@@ -12,4 +12,19 @@ Snacks.toggle.zen():map("<leader>uz")
 Snacks.toggle
   .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
   :map("<leader>uc")
+-- Flags read by conform's format_on_save
+-- stylua: ignore start
+Snacks.toggle.new({
+  id = "autoformat",
+  name = "Autoformat",
+  get = function() return not vim.g.disable_autoformat end,
+  set = function(on) vim.g.disable_autoformat = not on end,
+}):map("<leader>uf")
+Snacks.toggle.new({
+  id = "autoformat_buffer",
+  name = "Autoformat (Buffer)",
+  get = function() return not vim.b.disable_autoformat end,
+  set = function(on) vim.b.disable_autoformat = not on end,
+}):map("<leader>uF")
+-- stylua: ignore end
 Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")

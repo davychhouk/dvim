@@ -4,38 +4,15 @@ return {
   dependencies = {
     { "folke/lazydev.nvim" },
     { "mason-org/mason.nvim" },
+    -- blink registers its capabilities on vim.lsp.config("*") when it loads
     { "saghen/blink.cmp" },
+    { "b0o/schemastore.nvim" },
   },
   config = function()
     local lsp = vim.lsp
-    local capabilities = require("blink.cmp").get_lsp_capabilities()
-    local mason_lspconfig = require("mason-lspconfig")
 
-    -- Servers excluded from auto-enable: configured manually below, or owned by another plugin
-    -- rust_analyzer is managed by rustaceanvim
-    local excluded_servers = {
-      "azure_pipelines_ls",
-      "cssls",
-      "lua_ls",
-      "nixd",
-      "oxlint",
-      "rust_analyzer",
-      "tailwindcss",
-      "yamlls",
-    }
-
-    -- Default handler for installed servers
-    local servers = mason_lspconfig.get_installed_servers()
-    for _, server in pairs(servers) do
-      if not vim.tbl_contains(excluded_servers, server) then
-        lsp.config(server, { capabilities = capabilities })
-        lsp.enable({ server })
-      end
-    end
-
-    -- Config individual language servers
+    -- Mason-installed servers are enabled by mason-lspconfig (automatic_enable)
     lsp.config("cssls", {
-      capabilities = capabilities,
       settings = {
         css = {
           lint = {
@@ -45,8 +22,16 @@ return {
       },
     })
 
+    lsp.config("jsonls", {
+      settings = {
+        json = {
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
+      },
+    })
+
     lsp.config("lua_ls", {
-      capabilities = capabilities,
       settings = {
         Lua = {
           diagnostics = {
@@ -59,13 +44,7 @@ return {
       },
     })
 
-    -- kdl-lsp isn't in mason: cargo install --git https://github.com/kdl-org/kdl-rs kdl-lsp
-    lsp.config("kdl_lsp", {
-      capabilities = capabilities,
-    })
-
     lsp.config("nixd", {
-      capabilities = capabilities,
       cmd = { "nixd" },
       settings = {
         nixd = {
@@ -85,12 +64,7 @@ return {
       },
     })
 
-    lsp.config("oxlint", {
-      capabilities = capabilities,
-    })
-
     lsp.config("yamlls", {
-      capabilities = capabilities,
       settings = {
         yaml = {
           schemaStore = { enable = true, url = "https://www.schemastore.org/api/json/catalog.json" },
@@ -100,7 +74,6 @@ return {
 
     -- filetypes gate keeps this off unrelated yaml; the server requires a workspace URI.
     lsp.config("azure_pipelines_ls", {
-      capabilities = capabilities,
       filetypes = { "yaml.azure-pipelines" },
       root_markers = {
         {
@@ -127,7 +100,6 @@ return {
     })
 
     lsp.config("tailwindcss", {
-      capabilities = capabilities,
       filetypes = {
         "css",
         "html",
@@ -141,8 +113,8 @@ return {
       },
     })
 
-    -- Enable individual language servers
-    lsp.enable({ "azure_pipelines_ls", "cssls", "kdl_lsp", "lua_ls", "nixd", "oxlint", "tailwindcss", "yamlls" })
+    -- Not in mason. kdl-lsp: cargo install --git https://github.com/kdl-org/kdl-rs kdl-lsp
+    lsp.enable({ "kdl_lsp", "nixd" })
 
     -- Toggle codebook LSP
     vim.keymap.set("n", "<leader>cb", function()
@@ -175,22 +147,6 @@ return {
 
         opts.desc = "Smart rename"
         map("n", "<leader>rn", vim.lsp.buf.rename, opts)
-
-        opts.desc = "Show line diagnostics"
-        map("n", "<leader>di", vim.diagnostic.open_float, opts)
-
-        opts.desc = "Go to previous diagnostic"
-        map("n", "[d", function()
-          vim.diagnostic.jump({ count = -1 })
-        end, opts)
-
-        opts.desc = "Go to next diagnostic"
-        map("n", "]d", function()
-          vim.diagnostic.jump({ count = 1 })
-        end, opts)
-
-        opts.desc = "Show documentation for what is under cursor"
-        map("n", "K", vim.lsp.buf.hover, opts)
 
         opts.desc = "Restart LSP"
         map("n", "<leader>rs", ":lsp restart<CR>", opts)

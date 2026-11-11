@@ -65,16 +65,5 @@ return {
         map({ "o", "x" }, "ih", gs.select_hunk, "Select hunk")
       end,
     })
-
-    -- Guard against gitsigns race: in-flight async blame crashes if the
-    -- buffer detaches mid-flight (git_obj closed, repo set nil).
-    local blame = require("gitsigns.git.blame")
-    local run_blame = blame.run_blame
-    blame.run_blame = function(obj, ...)
-      if not obj or not obj.repo then
-        return {}, {}
-      end
-      return run_blame(obj, ...)
-    end
   end,
 }

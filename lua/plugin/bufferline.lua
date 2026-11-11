@@ -130,6 +130,8 @@ return {
     local map = vim.keymap.set
     map("n", "<Tab>", "<CMD>BufferLineCycleNext<CR>", { desc = "Next Buffer" })
     map("n", "<S-Tab>", "<CMD>BufferLineCyclePrev<CR>", { desc = "Previous Buffer" })
+    -- Without its own map, <C-i> falls back to the <Tab> map and jump-forward is lost.
+    map("n", "<C-i>", "<C-i>", { desc = "Jump forward" })
     map("n", "<leader>bp", "<CMD>BufferLinePick<CR>", { desc = "Pick Buffer" })
     map("n", "<leader>bn", "<CMD>enew<CR>", { desc = "New Buffer" })
     -- stylua: ignore

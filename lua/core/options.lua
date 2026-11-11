@@ -1,12 +1,11 @@
 local g = vim.g
-local o = vim.opt
+local o = vim.o
 
 -- line numbers
 o.number = true
 o.relativenumber = true
 
 -- tabs & indentation
-o.autoindent = true
 o.expandtab = true
 o.shiftwidth = 2
 o.tabstop = 2
@@ -15,13 +14,17 @@ o.tabstop = 2
 o.showmode = false
 
 -- disable nvim intro screen (snacks dashboard handles it)
-o.shortmess:append("I")
+vim.opt.shortmess:append("I")
 
 -- disable word wrap
 o.wrap = false
+-- when wrap is toggled on (<leader>uw): break at words, keep indentation
+o.linebreak = true
+o.breakindent = true
 
 -- keep cursor away from screen edges
 o.scrolloff = 8
+o.sidescrolloff = 8
 
 -- search settings
 o.ignorecase = true
@@ -38,9 +41,6 @@ o.background = "dark"
 o.signcolumn = "yes"
 o.termguicolors = true
 
--- backspace
-o.backspace = "indent,eol,start"
-
 -- persistent undo
 o.undofile = true
 
@@ -50,12 +50,17 @@ o.timeoutlen = 500
 
 -- clipboard (deferred to avoid slow provider detection on startup)
 vim.schedule(function()
-  o.clipboard:append("unnamedplus")
+  vim.opt.clipboard:append("unnamedplus")
 end)
 
 -- split windows
 o.splitbelow = true
 o.splitright = true
+-- keep text in place when a split opens or closes
+o.splitkeep = "screen"
+
+-- ask to save instead of failing on :q with unsaved changes
+o.confirm = true
 
 -- disable some default providers
 g.loaded_node_provider = 0
@@ -73,7 +78,6 @@ vim.filetype.add({
     [".*/tmux/.*%.conf"] = "tmux",
     ["docker%-compose.*%.ya?ml"] = "yaml.docker-compose",
     ["compose.*%.ya?ml"] = "yaml.docker-compose",
-    [".*/templates/.*%.ya?ml"] = "yaml.helm-values",
     ["values%.ya?ml"] = "yaml.helm-values",
     ["%.?azure%-pipelines.*%.ya?ml"] = "yaml.azure-pipelines",
     [".*/%.?azure%-pipelines/.*%.ya?ml"] = "yaml.azure-pipelines",

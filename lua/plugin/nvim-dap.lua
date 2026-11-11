@@ -20,6 +20,8 @@ return {
     { "<leader>dB" , function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, mode = "n", desc = "Debug Set Breakpoint" },
     { "<leader>dut", function() require("dapui").toggle() end, mode = "n", desc = "Debug UI Toggle" },
     { "<leader>dl", function() require("dap").run_last() end, mode = "n", desc = "Debug Run Last" },
+    { "<leader>dt", function() require("dap").terminate() end, mode = "n", desc = "Debug Terminate" },
+    { "<leader>de", function() require("dapui").eval() end, mode = { "n", "v" }, desc = "Debug Eval" },
   },
   -- stylua: ignore end
   config = function()
@@ -43,6 +45,24 @@ return {
               args = { "${port}", "127.0.0.1" },
             },
           }
+          for _, ft in ipairs({ "javascript", "javascriptreact", "typescript", "typescriptreact" }) do
+            dap.configurations[ft] = {
+              {
+                type = "pwa-node",
+                request = "launch",
+                name = "Launch file",
+                program = "${file}",
+                cwd = "${workspaceFolder}",
+              },
+              {
+                type = "pwa-node",
+                request = "attach",
+                name = "Attach to process",
+                processId = require("dap.utils").pick_process,
+                cwd = "${workspaceFolder}",
+              },
+            }
+          end
         end,
       },
       ensure_installed = {
@@ -115,7 +135,7 @@ return {
       request = "launch",
       name = "FastAPI",
       module = "uvicorn",
-      args = { "main:app", "--host", "0.0.0.0", "--port", "8000" },
+      args = { "main:app", "--host", "127.0.0.1", "--port", "8000" },
     })
   end,
 }
