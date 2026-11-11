@@ -1,5 +1,5 @@
 local g = vim.g
-local o = vim.opt
+local o = vim.o
 
 -- line numbers
 o.number = true
@@ -15,7 +15,7 @@ o.tabstop = 2
 o.showmode = false
 
 -- disable nvim intro screen (snacks dashboard handles it)
-o.shortmess:append("I")
+vim.opt.shortmess:append("I")
 
 -- disable word wrap
 o.wrap = false
@@ -50,7 +50,7 @@ o.timeoutlen = 500
 
 -- clipboard (deferred to avoid slow provider detection on startup)
 vim.schedule(function()
-  o.clipboard:append("unnamedplus")
+  vim.opt.clipboard:append("unnamedplus")
 end)
 
 -- split windows
