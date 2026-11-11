@@ -37,6 +37,9 @@ map("n", "<leader>R", "<CMD>restart<CR>", { desc = "Restart Nvim" })
 -- Health
 map("n", "<leader>ch", "<CMD>checkhealth<CR>", { desc = "Checkhealth" })
 
+-- Diagnostics
+map("n", "<leader>di", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
+
 -- Quickfix / loclist navigation
 map("n", "]q", "<CMD>cnext<CR>", { desc = "Next quickfix item" })
 map("n", "[q", "<CMD>cprev<CR>", { desc = "Prev quickfix item" })

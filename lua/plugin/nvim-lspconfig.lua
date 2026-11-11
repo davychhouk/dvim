@@ -148,22 +148,6 @@ return {
         opts.desc = "Smart rename"
         map("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
-        opts.desc = "Show line diagnostics"
-        map("n", "<leader>di", vim.diagnostic.open_float, opts)
-
-        opts.desc = "Go to previous diagnostic"
-        map("n", "[d", function()
-          vim.diagnostic.jump({ count = -1 })
-        end, opts)
-
-        opts.desc = "Go to next diagnostic"
-        map("n", "]d", function()
-          vim.diagnostic.jump({ count = 1 })
-        end, opts)
-
-        opts.desc = "Show documentation for what is under cursor"
-        map("n", "K", vim.lsp.buf.hover, opts)
-
         opts.desc = "Restart LSP"
         map("n", "<leader>rs", ":lsp restart<CR>", opts)
 
