@@ -16,6 +16,7 @@ return {
       formatters_by_ft = {
         bash = { "shfmt" },
         css = { "oxfmt", "prettierd", stop_after_first = true },
+        fish = { "fish_indent" },
         html = { "oxfmt", "prettierd", stop_after_first = true },
         javascript = { "oxfmt", "prettierd", stop_after_first = true },
         javascriptreact = { "oxfmt", "prettierd", stop_after_first = true },
