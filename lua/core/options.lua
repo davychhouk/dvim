@@ -18,9 +18,13 @@ vim.opt.shortmess:append("I")
 
 -- disable word wrap
 o.wrap = false
+-- when wrap is toggled on (<leader>uw): break at words, keep indentation
+o.linebreak = true
+o.breakindent = true
 
 -- keep cursor away from screen edges
 o.scrolloff = 8
+o.sidescrolloff = 8
 
 -- search settings
 o.ignorecase = true
@@ -52,6 +56,11 @@ end)
 -- split windows
 o.splitbelow = true
 o.splitright = true
+-- keep text in place when a split opens or closes
+o.splitkeep = "screen"
+
+-- ask to save instead of failing on :q with unsaved changes
+o.confirm = true
 
 -- disable some default providers
 g.loaded_node_provider = 0
