@@ -131,15 +131,16 @@ snippets/                 filetype snippet files (LuaSnip)
 
 ### LSP & Tooling
 
-| Plugin                                                     | Description                                            |
-| ---------------------------------------------------------- | ------------------------------------------------------ |
-| [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | LSP client configs                                     |
-| [mason.nvim](https://github.com/mason-org/mason.nvim)      | LSP, linter, and formatter installer                   |
-| [nvim-lint](https://github.com/mfussenegger/nvim-lint)     | Asynchronous linter runner                             |
-| [lazydev.nvim](https://github.com/folke/lazydev.nvim)      | Lua LSP for Neovim config and plugin development       |
-| [trouble.nvim](https://github.com/folke/trouble.nvim)      | Diagnostics and LSP results list                       |
-| [rustaceanvim](https://github.com/mrcjkb/rustaceanvim)     | Enhanced Rust LSP (rust-analyzer)                      |
-| [nvim-dap](https://github.com/mfussenegger/nvim-dap)       | Debug adapter protocol client with UI and virtual text |
+| Plugin                                                      | Description                                            |
+| ----------------------------------------------------------- | ------------------------------------------------------ |
+| [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)  | LSP client configs                                     |
+| [mason.nvim](https://github.com/mason-org/mason.nvim)       | LSP, linter, and formatter installer                   |
+| [nvim-lint](https://github.com/mfussenegger/nvim-lint)      | Asynchronous linter runner                             |
+| [lazydev.nvim](https://github.com/folke/lazydev.nvim)       | Lua LSP for Neovim config and plugin development       |
+| [schemastore.nvim](https://github.com/b0o/schemastore.nvim) | SchemaStore catalog for jsonls                         |
+| [trouble.nvim](https://github.com/folke/trouble.nvim)       | Diagnostics and LSP results list                       |
+| [rustaceanvim](https://github.com/mrcjkb/rustaceanvim)      | Enhanced Rust LSP (rust-analyzer)                      |
+| [nvim-dap](https://github.com/mfussenegger/nvim-dap)        | Debug adapter protocol client with UI and virtual text |
 
 ### Treesitter
 

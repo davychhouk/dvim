@@ -5,6 +5,7 @@ return {
     { "folke/lazydev.nvim" },
     { "mason-org/mason.nvim" },
     { "saghen/blink.cmp" },
+    { "b0o/schemastore.nvim" },
   },
   config = function()
     local lsp = vim.lsp
@@ -16,6 +17,7 @@ return {
     local excluded_servers = {
       "azure_pipelines_ls",
       "cssls",
+      "jsonls",
       "lua_ls",
       "nixd",
       "oxlint",
@@ -41,6 +43,16 @@ return {
           lint = {
             unknownAtRules = "ignore",
           },
+        },
+      },
+    })
+
+    lsp.config("jsonls", {
+      capabilities = capabilities,
+      settings = {
+        json = {
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
         },
       },
     })
@@ -142,7 +154,17 @@ return {
     })
 
     -- Enable individual language servers
-    lsp.enable({ "azure_pipelines_ls", "cssls", "kdl_lsp", "lua_ls", "nixd", "oxlint", "tailwindcss", "yamlls" })
+    lsp.enable({
+      "azure_pipelines_ls",
+      "cssls",
+      "jsonls",
+      "kdl_lsp",
+      "lua_ls",
+      "nixd",
+      "oxlint",
+      "tailwindcss",
+      "yamlls",
+    })
 
     -- Toggle codebook LSP
     vim.keymap.set("n", "<leader>cb", function()
