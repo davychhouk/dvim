@@ -6,7 +6,6 @@ o.number = true
 o.relativenumber = true
 
 -- tabs & indentation
-o.autoindent = true
 o.expandtab = true
 o.shiftwidth = 2
 o.tabstop = 2
@@ -37,9 +36,6 @@ o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-blinkon0"
 o.background = "dark"
 o.signcolumn = "yes"
 o.termguicolors = true
-
--- backspace
-o.backspace = "indent,eol,start"
 
 -- persistent undo
 o.undofile = true
