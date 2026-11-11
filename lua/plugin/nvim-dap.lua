@@ -20,6 +20,8 @@ return {
     { "<leader>dB" , function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, mode = "n", desc = "Debug Set Breakpoint" },
     { "<leader>dut", function() require("dapui").toggle() end, mode = "n", desc = "Debug UI Toggle" },
     { "<leader>dl", function() require("dap").run_last() end, mode = "n", desc = "Debug Run Last" },
+    { "<leader>dt", function() require("dap").terminate() end, mode = "n", desc = "Debug Terminate" },
+    { "<leader>de", function() require("dapui").eval() end, mode = { "n", "v" }, desc = "Debug Eval" },
   },
   -- stylua: ignore end
   config = function()
