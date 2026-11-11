@@ -43,6 +43,24 @@ return {
               args = { "${port}", "127.0.0.1" },
             },
           }
+          for _, ft in ipairs({ "javascript", "javascriptreact", "typescript", "typescriptreact" }) do
+            dap.configurations[ft] = {
+              {
+                type = "pwa-node",
+                request = "launch",
+                name = "Launch file",
+                program = "${file}",
+                cwd = "${workspaceFolder}",
+              },
+              {
+                type = "pwa-node",
+                request = "attach",
+                name = "Attach to process",
+                processId = require("dap.utils").pick_process,
+                cwd = "${workspaceFolder}",
+              },
+            }
+          end
         end,
       },
       ensure_installed = {
@@ -115,7 +133,7 @@ return {
       request = "launch",
       name = "FastAPI",
       module = "uvicorn",
-      args = { "main:app", "--host", "0.0.0.0", "--port", "8000" },
+      args = { "main:app", "--host", "127.0.0.1", "--port", "8000" },
     })
   end,
 }
