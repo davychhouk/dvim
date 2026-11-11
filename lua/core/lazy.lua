@@ -32,8 +32,6 @@ local opts = {
       reset = true,
       disabled_plugins = {
         "gzip",
-        "matchit",
-        "matchparen",
         "netrwPlugin",
         "rplugin",
         "spellfile",
